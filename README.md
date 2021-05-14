@@ -469,7 +469,7 @@ Return:
 #### Create Bytom Client
 Create bytom client with local node, default url is http://localhost:9888:
 ```python
-from bytom.client import BytomAPI
+from pybtmsdk import BytomAPI
 
 api = BytomAPI()
 ```
@@ -478,7 +478,7 @@ or
 
  Create bytom client with remote node:
 ```python
-from bytom.client import BytomAPI
+from pybtmsdk import BytomAPI
 
 url = 'http://YOUR_HOST:9888'
 access_token = 'YOUR_ACCESS_TOKEN'
