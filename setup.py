@@ -12,7 +12,8 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Bytom/python-bytomlib",
-    packages=setuptools.find_packages(),
+    #packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=["example"]),  # 包
     install_requires=[
         "ed25519>=1.4",
         "pbkdf2>=1.3",
