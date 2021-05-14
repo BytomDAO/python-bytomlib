@@ -21,8 +21,11 @@ pybtmsdk
   - [2.16 Create new address](#216-create-new-address)
   - [2.17 Submit raw transaction](#217-submit-raw-transaction)
   - [2.18 Decode raw transaction](#218-decode-raw-transaction)
+- [3 Api](#3-api)
+  - [3.1 Use api client](#31-use-api-client)
 
 Python3 implementation of the Bytom protocol.
+
 
 ## 1 Installation
 
@@ -457,4 +460,50 @@ Return:
 >>> network_str = 'solonet'
 >>> transaction.decode_raw_tx(raw_transaction_hexstr, network_str)
 {'fee': 20000000, 'inputs': [{'address': 'sm1qjv6mrj755aah3cenzksw6y9ftvfw0jjgk0l2mw', 'amount': 41250000000, 'asset_definition': {}, 'asset_id': 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', 'control_program': '00149335b1cbd4a77b78e33315a0ed10a95b12e7ca48', 'input_id': '6e3f378ed844b143a335e306f4ba26746157589c87e8fc8cba6463c566c56768', 'spent_output_id': 'f229ec6f403d586dc87aa2546bbe64c5f7b5f46eb13c6ee4823d03bc88a7cf17', 'type': 'spend', 'witness_arguments': ['897e2d9d24a3b5faaed0579dee7597b401491595675f897504f8945b29d836235bd2fca72a3ad0cae814628973ebcd142d9d6cc92d0b2571b69e5370a98a340c', '8cb7fb3086f58db9a31401b99e8c658be66134fb9034de1d5c462679270b0907']}], 'outputs': [{'address': 'sm1qqm8yk6ym5qn0l5a8efjar5ze23k5k79qnvtslj', 'amount': 40930000000, 'asset_definition': {}, 'asset_id': 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', 'control_program': '001406ce4b689ba026ffd3a7ca65d1d059546d4b78a0', 'id': '74c73266730d3c6ea32e8667ef9b867068736b84be240fe9fef205fa68bb7b95', 'position': 0, 'type': 'control'}, {'address': 'sm1q0y57lyve0jp8h6lkp7nq37rkagn4y0z8hvh6kq', 'amount': 300000000, 'asset_definition': {}, 'asset_id': 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', 'control_program': '00147929ef91997c827bebf60fa608f876ea27523c47', 'id': 'f115a833d0c302a5006032858a7ed3987f0feb2daf2a9f849384950e4766af51', 'position': 1, 'type': 'control'}], 'size': 333, 'time_range': 0, 'tx_id': '814a73dd57bae67c604f9cbc696cbc42035577423408cb9267136ed971e2bf63', 'version': 1}
+```
+
+## 3 Api
+
+### 3.1 Use api client
+
+#### Create Bytom Client
+Create bytom client with local node, default url is http://localhost:9888:
+```python
+from bytom.client import BytomAPI
+
+api = BytomAPI()
+```
+
+or
+
+ Create bytom client with remote node:
+```python
+from bytom.client import BytomAPI
+
+url = 'http://YOUR_HOST:9888'
+access_token = 'YOUR_ACCESS_TOKEN'
+api = BytomAPI(url, access_token)
+```
+
+#### API response
+use python object as return:
+```python
+ret = api.wallet_info()
+print ret.best_block_height # 76251
+print ret.wallet_height     # 76251
+```
+or
+
+use Dict object as return:
+```python
+ret = api.get_block_count(return_dict=True)
+print ret                   # {u'block_count': 76409}
+print ret["block_count"]    # 76409
+```
+or
+
+use original API response (JSON) as return:
+```python
+ret = api.get_block_count(return_json=True)
+print ret                   # '{"block_count": 80267}'
 ```
