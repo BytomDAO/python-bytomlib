@@ -489,21 +489,21 @@ api = BytomAPI(url, access_token)
 use python object as return:
 ```python
 ret = api.wallet_info()
-print ret.best_block_height # 76251
-print ret.wallet_height     # 76251
+print(ret.best_block_height) # 76251
+print(ret.wallet_height)     # 76251
 ```
 or
 
 use Dict object as return:
 ```python
 ret = api.get_block_count(return_dict=True)
-print ret                   # {u'block_count': 76409}
-print ret["block_count"]    # 76409
+print(ret)                   # {u'block_count': 76409}
+print(ret["block_count"])    # 76409
 ```
 or
 
 use original API response (JSON) as return:
 ```python
 ret = api.get_block_count(return_json=True)
-print ret                   # '{"block_count": 80267}'
+print(ret)                   # '{"block_count": 80267}'
 ```
