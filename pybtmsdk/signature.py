@@ -87,7 +87,7 @@ def generate_signatures(private_keys, input_template, input_decoded_tx):
 
                         print("message: %s" % message)
 
-                        sig = sign(expanded_prv, message)["signature"]
+                        sig = sign(expanded_prv, message)["signature"] + "de"
                         
                         print("sig: %s" % sig)
                         wc["signatures"][j] = sig
