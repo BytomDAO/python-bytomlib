@@ -43,9 +43,9 @@ actions = [
 # sm1q3wfltg8llv9w3r4g9nusx5xw7mcq34ehqwguud bycoin派生路径
 # sm1q27ujth2eech6xvaxwzcr8axqkjcmzqfh6t705j 实际的地址
 
-print(api.list_balances(account_id="1QCDJ6T3G0A04", account_alias="ipqhjjybj"))
-print(api.list_balances(account_id="1QB26RD800A02", account_alias="test"))
-input()
+# print(api.list_balances(account_id="1QCDJ6T3G0A04", account_alias="ipqhjjybj"))
+# print(api.list_balances(account_id="1QB26RD800A02", account_alias="test"))
+
 
 template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
 print("template: " + str(template))
@@ -62,9 +62,12 @@ mnemonic_str = "head verb dose torch divert bulb abstract shaft fatal pet accide
 
 basic_signed = generate_signatures_use_mnemonic([mnemonic_str], template, decoded_tx)
 print("basic_signed: " + str(basic_signed))
-result = api.sign_transaction("", basic_signed, return_dict=True)
+print(type(basic_signed))
+result = api.sign_transaction(password="12345", transaction=basic_signed, return_dict=True)
 print("result raw_transaction: " + str(result))
 
+# result = api.sign_transaction(password="12345", transaction=template, return_dict=True)
+# print("result raw_transaction: " + str(result))
 
 ##############
 ## decode test

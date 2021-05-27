@@ -80,15 +80,14 @@ def generate_signatures(private_keys, input_template, input_decoded_tx):
                         public_key = key["xpub"]
                         dst = find_dist(private_keys, public_key)
                         private_key = private_keys[dst]
-
                         expanded_prv = get_child_xprv(private_key, key["derivation_path"])
 
                         print("private_key: %s" % private_key)
-                        print("child_xprv: %s" % child_xprv)
+                        print("child_xprv: %s" % expanded_prv)
 
                         print("message: %s" % message)
 
-                        sig = sign(expanded_prv, message)
+                        sig = sign(expanded_prv, message)["signature"]
                         
                         print("sig: %s" % sig)
                         wc["signatures"][j] = sig
