@@ -1,5 +1,7 @@
 import ed25519
+import copy
 
+from pybtmsdk.key import get_child_xprv, get_xpub, get_seed, get_root_xprv
 # You can verify or get more test data from: https://gist.github.com/zcc0721/bfa5c34a49ddfcaf9fdc3374cecb1477
 # test data 1:
 #   private_key_str: 33c6e964cf64246fc37f26be46c7b783ef4364f9d4c69daa4ccd9d0fef5fcef1
@@ -34,3 +36,77 @@ def verify(public_key_str, signature_str, message_str):
     except ed25519.BadSignatureError:
         result = False
     return result
+
+
+def find_dist(private_keys, xpub):
+    dst = -1
+    for i, key in enumerate(private_keys):
+        temp_xpub = get_xpub(key)
+        if xpub == temp_xpub:
+            dst = i
+            print("private[dst]: %s", private_keys[dst])
+            break
+
+    if dst == -1:
+        raise Exception("Not a proper private key to sign transaction.")
+    
+    return dst
+
+
+def generate_signatures(private_keys, input_template, input_decoded_tx):
+    if type(input_template) != dict:
+        template = simplejson.loads(simplejson.dumps(input_template))
+    else:
+        template = copy.deepcopy(input_template)
+
+    if type(input_decoded_tx) != dict:
+        decoded_tx = simplejson.loads(simplejson.dumps(input_decoded_tx))
+    else:
+        decoded_tx = copy.deepcopy(input_decoded_tx)
+        
+    result = copy.deepcopy(template)
+
+    for i, signing in enumerate(template["signing_instructions"]):
+        for wc in signing["witness_components"]:
+            # Have two cases
+            if wc["type"] == "raw_tx_signature":
+                if wc["signatures"] is None or len(wc["signatures"]) < len(wc["keys"]):
+                    wc["signatures"] = ["" for i in range(0, len(wc["keys"]))]
+
+                message = decoded_tx["inputs"][signing["position"]]["sign_data"]
+
+                for j, key in enumerate(wc["keys"]):
+                    if wc["signatures"][j] is None or wc["signatures"][j] == "":
+                        public_key = key["xpub"]
+                        dst = find_dist(private_keys, public_key)
+                        private_key = private_keys[dst]
+
+                        expanded_prv = get_child_xprv(private_key, key["derivation_path"])
+
+                        print("private_key: %s" % private_key)
+                        print("child_xprv: %s" % child_xprv)
+
+                        print("message: %s" % message)
+
+                        sig = sign(expanded_prv, message)
+                        
+                        print("sig: %s" % sig)
+                        wc["signatures"][j] = sig
+                        result["signing_instructions"][i]["witness_components"][j]["signatures"] = wc["signatures"]
+                break
+            elif wc.type == "":
+                break
+            else:
+                continue
+
+    return result
+
+
+def generate_signatures_use_mnemonic(mnemonics_keys, input_template, input_decoded_tx):
+    private_keys = []
+    for mnemonic_str in mnemonics_keys:
+        seed = get_seed(mnemonic_str)
+        secret_key = get_root_xprv(seed)
+        private_keys.append(secret_key)
+    return generate_signatures(private_keys, input_template, input_decoded_tx)
+

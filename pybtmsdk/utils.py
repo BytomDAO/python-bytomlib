@@ -7,7 +7,7 @@ import sha3
 from io import BytesIO
 from binascii import hexlify
 from binascii import unhexlify
-from .edwards25519 import *
+from pybtmsdk.edwards25519 import *
 # from bytom.signatures import ed25519
 
 # create_qrcode_base64 create qrcode, then encode it to base64

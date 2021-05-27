@@ -1,8 +1,7 @@
 import requests
 import json
 from _pysha3 import sha3_256
-from .receiver import *
-
+from pybtmsdk.receiver import get_address
 
 # submit_transaction broadcast raw transaction
 # raw_transaction_str is signed transaction,
@@ -12,17 +11,17 @@ from .receiver import *
 # test data 2:
 #   raw_transaction_hexstr: 07010001015f015d2f4a8f10afbc0448779fadd916a3f1b8518ffe0b7d20fdf470d8e9b4993ef2b4ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc0d8883200011600144a594e3e4cbbd87629476e7ee24c1637df66c0b76302406fd39079681118840fd6fd66cdff769f2d05d8520312e9dd559dc23c36a3cb3921e47cba233d5d2267eb0f128a908d1bab877e172e880d3f36dc6a5e5826540c202854e5c181f5a862edd190e413d75937549758ef4902e1475aac52623f0a239302013cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc09dd81001160014f63f68597df5c88a92e04229e0fd08a3584ade3b00013cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80e1eb1701160014664f28ec6ab8826a028658dc0d0d1f94c6e20fa300
 #   submit_url: https://blockmeta.com/api/v2/broadcast-transaction
-def submit_transaction(raw_transaction_hexstr, submit_url):
-    raw_transaction_dict = {
-        "transaction": raw_transaction_hexstr
-    }
-    raw_transaction_json = json.dumps(raw_transaction_dict)
-    headers = {
-        "content-type": "application/json",
-        "accept": "application/json"
-    }
-    response = requests.post(submit_url, headers=headers, data=raw_transaction_json)
-    return response.text[:-1]
+# def submit_transaction(raw_transaction_hexstr, submit_url):
+#     raw_transaction_dict = {
+#         "transaction": raw_transaction_hexstr
+#     }
+#     raw_transaction_json = json.dumps(raw_transaction_dict)
+#     headers = {
+#         "content-type": "application/json",
+#         "accept": "application/json"
+#     }
+#     response = requests.post(submit_url, headers=headers, data=raw_transaction_json)
+#     return response.text[:-1]
 
 
 # def decode_raw_transaction(raw_transaction_str):
@@ -295,8 +294,8 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 "type": "",
                 "state_data": [],
                 "witness_arguments": [],
-                "spend_commitment_suffix": "",
-                "witness_suffix": "",
+                #"spend_commitment_suffix": "",
+                #"witness_suffix": "",
             }
             tx_input['type'] = "spend"
             spend_commitment_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
@@ -364,7 +363,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 "input_id": "",
                 "type": "",
                 "commitment_suffix": "",
-                "witness_suffix": []
+                #"witness_suffix": []
             }
             tx_input['type'] = "coinbase"
             arbitrary_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
@@ -390,7 +389,6 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 "veto_commitment_suffix": "",
                 "witness_arguments": [],
                 "vote": "",
-                "xpub": ""
             }
             tx_input['type'] = "vote"
             vote_comment_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
@@ -428,7 +426,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
             x_pub_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             xpub_str = raw_transaction_str[offset: offset + length * 2 + x_pub_length * 2]
             offset = offset + 2 * length
-            tx_input["xpub"] = raw_transaction_str[offset: offset + x_pub_length * 2]
+            tx_input["vote"] = raw_transaction_str[offset: offset + x_pub_length * 2]
             offset = offset + 2 * x_pub_length
 
             witness_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
@@ -475,8 +473,8 @@ def decode_raw_tx(raw_transaction_str, network_str):
             "position": 0,
             "state_data": [],
             "type": "",
-            "commitment_suffix": "",
-            "witness_suffix": ""
+            #"commitment_suffix": "",
+            #"witness_suffix": ""
         }
         tx_output['position'] = i
         asset_version, length = get_uvarint(raw_transaction_str[offset:offset + 18])
@@ -488,13 +486,15 @@ def decode_raw_tx(raw_transaction_str, network_str):
 
         offset = offset + 2 * length
 
+        tx_output['type'] = 'control'
         xpub_hex_str = ""
         if output_type == 1:  # vote
             output_xpub_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             xpub_hex_str = raw_transaction_str[offset: offset + 2 * length + 2 * output_xpub_length]
             offset = offset + 2 * length
-            tx_output["xpub"] = raw_transaction_str[offset: offset + output_xpub_length * 2]
+            tx_output["vote"] = raw_transaction_str[offset: offset + output_xpub_length * 2]
             offset = offset + 2 * output_xpub_length
+            tx_output['type'] = 'vote'
 
         tx_output['asset_id'] = raw_transaction_str[offset:offset + 64]
         offset = offset + 64
@@ -546,10 +546,20 @@ def decode_raw_tx(raw_transaction_str, network_str):
             tx_output['id'] = get_output_id(prepare_output_id_hexstr)
 
         prepare_tx_id_hexstr += tx_output['id']
-        tx_output['type'] = 'control'
+        
         tx['outputs'].append(tx_output)
 
     if tx_input['type'] == "coinbase":
         tx['fee'] = 0
     tx['tx_id'] = get_tx_id(prepare_tx_id_hexstr)
+
+    for i in range(len(tx["inputs"])):
+        tx["inputs"][i]["sign_data"] = sig_hash(tx["inputs"][i]["input_id"], tx['tx_id'])
+        if "witness_arguments" in tx["inputs"][i].keys() and len(tx["inputs"][i]["witness_arguments"]) == 0:
+            tx["inputs"][i]["witness_arguments"] = None
     return tx
+
+
+def sig_hash(hash_id, tx_id):
+    return sha3_256(bytes.fromhex(hash_id + tx_id)).hexdigest()
+

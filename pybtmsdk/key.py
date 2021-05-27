@@ -2,9 +2,9 @@ import random
 import hashlib
 import pbkdf2
 import hmac
-from .edwards25519 import *
-from .signature import *
-from .utils import *
+from pybtmsdk.edwards25519 import *
+# from pybtmsdk.signature import *
+# from pybtmsdk.utils import *
 
 
 def get_entropy():

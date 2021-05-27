@@ -3,8 +3,8 @@
 
 import six
 import simplejson
-from .rpc import RPCRequest
-from .models import APIModel
+from pybtmsdk.rpc import RPCRequest
+from pybtmsdk.models import APIModel
 
 
 class BytomClientError(Exception):
@@ -71,7 +71,6 @@ def bind_method(**config):
                 raise BytomAPIError(api_ret.get("code", ""), api_ret.get("msg", ""), api_ret)
 
             data = api_ret.get("data", {})
-
             if self.return_json:
                 return simplejson.dumps(data)
             elif self.return_dict:

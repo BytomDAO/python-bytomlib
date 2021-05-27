@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from .bind import bind_method
+from pybtmsdk.bind import bind_method
 
 NO_ACCEPT_PARAMETERS = []
 
@@ -10,12 +10,9 @@ class BytomAPI(object):
     api_name = "Bytom"
     version = "1.0.3"
 
-    def __init__(self, url=default_url, access_token=""):
+    def __init__(self, url=default_url):
         self.url = url
-        self.access_token = access_token
         self.auth = ()
-        if self.access_token != "":
-            self.auth = tuple(self.access_token.split(":"))
 
     # Available with wallet enable
     # has
@@ -161,6 +158,11 @@ class BytomAPI(object):
     sign_transaction = bind_method(
                 path="/sign-transaction",
                 accepts_parameters=["password", "transaction"])
+
+    # has
+    sign_transactions = bind_method(
+                path="/sign-transactions",
+                accepts_parameters=["password", "transactions"])
 
     # Available whether or not the wallet is open
     # has

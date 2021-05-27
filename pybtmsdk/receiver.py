@@ -1,7 +1,7 @@
 import hashlib
-from .key import *
-from .segwit_addr import *
-from .utils import *
+from pybtmsdk.key import *
+from pybtmsdk.segwit_addr import *
+from pybtmsdk.utils import *
 
 # get_path_from_index create xpub path from account key index and current address index
 # path: purpose(0x2c=44)/coin_type(btm:0x99)/account_index/change(1 or 0)/address_index
@@ -171,4 +171,13 @@ def get_new_address(xpub_hexstr, account_index_int, address_index_int, change_bo
         "address": address_str,
         "address_base64": address_base64
     }
+
+
+def get_main_vapor_address(private_key, network):
+    xpub_hexstr = get_xpub(private_key)
+    account_index_int = 1
+    address_index_int = 1
+    change_bool = False
+    data = get_new_address(xpub_hexstr, account_index_int, address_index_int, change_bool, network)
+    return data["address"], data["vapor_address"]
 
