@@ -21,13 +21,13 @@ asset_id = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
 address = "sm1q3wfltg8llv9w3r4g9nusx5xw7mcq34ehqwguud"
 actions = [
     {
-      "account_id": "1QCDJ6T3G0A04",
+      "account_id": "1QEPIO7OG0A02",
       "amount": 400000,
       "asset_id": asset_id,
       "type": "spend_account"
     },
     {
-      "account_id": "1QCDJ6T3G0A04",
+      "account_id": "1QEPIO7OG0A02",
       "amount": 300000,
       "asset_id": asset_id,
       "type": "spend_account"
@@ -41,18 +41,26 @@ actions = [
 ]
 
 # sm1q3wfltg8llv9w3r4g9nusx5xw7mcq34ehqwguud bycoin派生路径
-# sm1q27ujth2eech6xvaxwzcr8axqkjcmzqfh6t705j 实际的地址
+# sm1q27ujth2eech6xvaxwzcr8axqkjcmzqfh6t705j 实际的地址 ipqhjjybj
+# sm1qheqkp9877vywwxwxufctflgaqfvew4efp2jz4d 实际的地址 ipqhjjybj2
 
-# print(api.list_balances(account_id="1QCDJ6T3G0A04", account_alias="ipqhjjybj"))
+# print(api.list_balances(account_id="1QEPIO7OG0A02", account_alias="ipqhjjybj"))
 # print(api.list_balances(account_id="1QB26RD800A02", account_alias="test"))
 
+# ori_tx = "0701dfd5c8d5050101620160f99d1c88dff4922f5df686b0c1c5fdf32a8350d8b4a072d22c8f802ba815ac1effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80d0dbc3f402010116001457b925dd59ce2fa333a670b033f4c0b4b1b101370001000201003fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa0f3b0c3f402011600140a5fd7aabbb608dedff10c25d4f2d9af0a71d0f2000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb0ea01011600148b93f5a0fffb0ae88ea82cf90350cef6f008d7370000"
+# tx = "0701dfd5c8d5050101620160f99d1c88dff4922f5df686b0c1c5fdf32a8350d8b4a072d22c8f802ba815ac1effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80d0dbc3f402010116001457b925dd59ce2fa333a670b033f4c0b4b1b101370063024054add0076ac31727a326fcac25a41627f2850d190a57afe780ff25010bb9ccff8c4add5708fabc7d6495a3093391ff0cc43fad0fecf7b80b7a359c0e70dc72ab2016a3a1bd78fba58b16ba1147f5e142ec4da9ce754ce3a1cc8292ee71221c36ce0201003fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffa0f3b0c3f402011600140a5fd7aabbb608dedff10c25d4f2d9af0a71d0f2000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb0ea01011600148b93f5a0fffb0ae88ea82cf90350cef6f008d7370000"
+
+# print(decode_raw_tx(ori_tx, "solonet"))
+# print(decode_raw_tx(tx, "solonet"))
+# input()
 
 template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
 print("template: " + str(template))
 decoded_tx = api.decode_raw_transaction(template["raw_transaction"], return_dict=True)
 print("decoded_tx: " + str(decoded_tx))
 
-mnemonic_str = "head verb dose torch divert bulb abstract shaft fatal pet accident else"
+#mnemonic_str = "head verb dose torch divert bulb abstract shaft fatal pet accident else"
+mnemonic_str = "famous atom coral belt grab together patrol steak forum undo someone motor"
 # from pybtmsdk.receiver import get_new_address
 # from pybtmsdk.key import get_child_xprv, get_xpub, get_seed, get_root_xprv
 
@@ -62,12 +70,21 @@ mnemonic_str = "head verb dose torch divert bulb abstract shaft fatal pet accide
 
 basic_signed = generate_signatures_use_mnemonic([mnemonic_str], template, decoded_tx)
 print("basic_signed: " + str(basic_signed))
-print(type(basic_signed))
+
+
+
+basic_signed = template
+print("what")
 result = api.sign_transaction(password="12345", transaction=basic_signed, return_dict=True)
 print("result raw_transaction: " + str(result))
 
 # result = api.sign_transaction(password="12345", transaction=template, return_dict=True)
 # print("result raw_transaction: " + str(result))
+
+print(result["transaction"]["raw_transaction"])
+print("server signed:", api.decode_raw_transaction(result["transaction"]["raw_transaction"], return_dict=True))
+# result = api.submit_transaction(raw_transaction=result["transaction"]["raw_transaction"])
+# print("submit : " , result)
 
 ##############
 ## decode test

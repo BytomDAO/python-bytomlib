@@ -4,7 +4,7 @@ import pbkdf2
 import hmac
 from pybtmsdk.edwards25519 import *
 # from pybtmsdk.signature import *
-# from pybtmsdk.utils import *
+from pybtmsdk.utils import *
 
 
 def get_entropy():
