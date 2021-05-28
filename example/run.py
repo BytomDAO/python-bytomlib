@@ -72,7 +72,6 @@ basic_signed = generate_signatures_use_mnemonic([mnemonic_str], template, decode
 print("basic_signed: " + str(basic_signed))
 
 
-
 basic_signed = template
 print("what")
 result = api.sign_transaction(password="12345", transaction=basic_signed, return_dict=True)

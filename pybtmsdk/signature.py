@@ -44,6 +44,8 @@ def generate_signatures(private_keys, input_template, input_decoded_tx):
                 if wc["signatures"] is None or len(wc["signatures"]) < len(wc["keys"]):
                     wc["signatures"] = ["" for i in range(0, len(wc["keys"]))]
 
+                wc["pubkeys"] = ["" for i in range(len(wc["keys"]))]
+
                 message = decoded_tx["inputs"][signing["position"]]["sign_data"]
 
                 for j, key in enumerate(wc["keys"]):
@@ -62,6 +64,7 @@ def generate_signatures(private_keys, input_template, input_decoded_tx):
                         
                         print("sig: %s" % sig)
                         wc["signatures"][j] = sig
+                        wc["pubkeys"][j] = get_xpub(expanded_prv)
                         result["signing_instructions"][i]["witness_components"][j]["signatures"] = wc["signatures"]
                 break
             elif wc.type == "":
@@ -69,7 +72,10 @@ def generate_signatures(private_keys, input_template, input_decoded_tx):
             else:
                 continue
 
-    return result
+    return {
+        "transaction": result,
+        "sign_complete": True
+    }
 
 
 def generate_signatures_use_mnemonic(mnemonics_keys, input_template, input_decoded_tx):
@@ -79,4 +85,8 @@ def generate_signatures_use_mnemonic(mnemonics_keys, input_template, input_decod
         secret_key = get_root_xprv(seed)
         private_keys.append(secret_key)
     return generate_signatures(private_keys, input_template, input_decoded_tx)
+
+
+
+
 
