@@ -9,17 +9,6 @@ from pybtmsdk.key import get_child_xprv, get_xpub, get_seed, get_root_xprv, xprv
 from pybtmsdk import utils
 
 
-def verify(public_key_str, signature_str, message_str):
-    result = False
-    verifying_key = ed25519.VerifyingKey(public_key_str.encode(), encoding='hex')
-    try:
-        verifying_key.verify(signature_str.encode(), bytes.fromhex(message_str), encoding='hex')
-        result = True
-    except ed25519.BadSignatureError:
-        result = False
-    return result
-
-
 def find_dist(private_keys, xpub):
     dst = -1
     for i, key in enumerate(private_keys):
