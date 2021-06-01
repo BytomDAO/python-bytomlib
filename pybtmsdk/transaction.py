@@ -234,24 +234,28 @@ def decode_raw_tx(raw_transaction_str, network_str):
         if input_type == 0:  # issue
             tx_input = {
                 "amount": 0,
-                "asset_definition": "",
+                "asset_definition": {},
                 "asset_id": "",
                 "input_id": "",
                 "issuance_program": "",
                 "type": "",
-                "witness_arguments": []
+                "witness_arguments": [],
+                "nonce": "",
+                "source_position": -1,
             }
             tx_input['type'] = "issue"
-            nonth_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+            nonce_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
-            nonce = raw_transaction_str[offset:offset + nonth_length * 2]
-            offset += nonth_length * 2
+            nonce = raw_transaction_str[offset:offset + nonce_length * 2]
+            tx_input["nonce"] = nonce
+            offset += nonce_length * 2
             nonce_hash_hexstr = sha3_256(bytes.fromhex(nonce)).hexdigest()
             tx_input['asset_id'] = raw_transaction_str[offset:offset + 64]
             offset += 64
             tx_input['amount'], length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
             source_positon, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+            tx_input["source_positon"] = int(source_positon)
             offset = offset + 2 * length
             asset_definition_size, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
@@ -294,6 +298,8 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 "type": "",
                 "state_data": [],
                 "witness_arguments": [],
+                "source_id": "",
+                "source_positon": -1
                 #"spend_commitment_suffix": "",
                 #"witness_suffix": "",
             }
@@ -301,6 +307,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
             spend_commitment_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
             source_id = raw_transaction_str[offset:offset + 64]
+            tx_input["source_id"] = source_id
             offset += 64
             tx_input['asset_id'] = raw_transaction_str[offset:offset + 64]
             offset += 64
@@ -308,6 +315,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
             offset = offset + 2 * length
             tx['fee'] += tx_input['amount']
             source_positon, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+            tx_input["source_positon"] = int(source_positon)
             offset = offset + 2 * length
             vmversion, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
@@ -327,22 +335,19 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 for_spend_id_state_hexstr = for_spend_id_state_hexstr + raw_transaction_str[
                                                                         offset:offset + 2 * state_data_length]
                 offset = offset + 2 * state_data_length
-                tx_input["state_data"].append(offset)
+                tx_input["state_data"].append(state_data)
 
             witness_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
             witness_arguments_amount, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
-            if witness_arguments_amount == 1:
-                offset = offset + 2
-                tx_input['witness_arguments'] = None
-            else:
-                for _ in range(witness_arguments_amount):
-                    argument_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
-                    offset = offset + 2 * length
-                    argument = raw_transaction_str[offset:offset + 2 * argument_length]
-                    offset = offset + 2 * argument_length
-                    tx_input['witness_arguments'].append(argument)
+
+            for _ in range(witness_arguments_amount):
+                argument_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+                offset = offset + 2 * length
+                argument = raw_transaction_str[offset:offset + 2 * argument_length]
+                offset = offset + 2 * argument_length
+                tx_input['witness_arguments'].append(argument)
             tx_input['spent_output_id'] = get_spend_output_id(source_id, tx_input['asset_id'], tx_input['amount'],
                                                               source_positon, vmversion, tx_input['control_program'],
                                                               for_spend_id_state_hexstr)
@@ -358,7 +363,6 @@ def decode_raw_tx(raw_transaction_str, network_str):
             tx_input = {
                 "amount": 0,
                 "arbitrary": "",
-                "asset_definition": {},
                 "asset_id": "0000000000000000000000000000000000000000000000000000000000000000",
                 "input_id": "",
                 "type": "",
@@ -394,6 +398,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
             vote_comment_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
             source_id = raw_transaction_str[offset:offset + 64]
+            tx_input["source_id"] = source_id
             offset += 64
             tx_input['asset_id'] = raw_transaction_str[offset:offset + 64]
             offset += 64
@@ -401,6 +406,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
             offset = offset + 2 * length
             tx['fee'] += tx_input['amount']
             source_positon, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+            tx_input["source_positon"] = int(source_positon)
             offset = offset + 2 * length
             vmversion, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
@@ -421,7 +427,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 for_vote_id_state_hexstr = for_vote_id_state_hexstr + raw_transaction_str[
                                                                       offset:offset + 2 * state_data_length]
                 offset = offset + 2 * state_data_length
-                tx_input["state_data"].append(offset)
+                tx_input["state_data"].append(state_data)
 
             x_pub_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             xpub_str = raw_transaction_str[offset: offset + length * 2 + x_pub_length * 2]
@@ -433,16 +439,13 @@ def decode_raw_tx(raw_transaction_str, network_str):
             offset = offset + 2 * length
             witness_arguments_amount, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
-            if witness_arguments_amount == 1:
-                offset = offset + 2
-                tx_input['witness_arguments'] = None
-            else:
-                for _ in range(witness_arguments_amount):
-                    argument_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
-                    offset = offset + 2 * length
-                    argument = raw_transaction_str[offset:offset + 2 * argument_length]
-                    offset = offset + 2 * argument_length
-                    tx_input['witness_arguments'].append(argument)
+            
+            for _ in range(witness_arguments_amount):
+                argument_length, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+                offset = offset + 2 * length
+                argument = raw_transaction_str[offset:offset + 2 * argument_length]
+                offset = offset + 2 * argument_length
+                tx_input['witness_arguments'].append(argument)
 
             tx_input['vote_output_id'] = get_vote_spend_output_id(source_id, tx_input['asset_id'], tx_input['amount'],
                                                                   source_positon, vmversion,
@@ -457,7 +460,6 @@ def decode_raw_tx(raw_transaction_str, network_str):
 
             mux_id_hexstr = get_mux_id(prepare_mux_hexstr)
 
-    # print("fuck:", "prepare_mux_hexstr", prepare_mux_hexstr)
     input_mux_hexstr = prepare_mux_hexstr
     tx_output_amount, length = get_uvarint(raw_transaction_str[offset:offset + 18])
     offset = offset + 2 * length
@@ -466,7 +468,6 @@ def decode_raw_tx(raw_transaction_str, network_str):
         tx_output = {
             "address": "",
             "amount": 0,
-            "asset_definition": {},
             "asset_id": "",
             "control_program": "",
             "id": "",
@@ -549,7 +550,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
         
         tx['outputs'].append(tx_output)
 
-    if tx_input['type'] == "coinbase":
+    if tx_input['type'] in ["coinbase", "vote"]:
         tx['fee'] = 0
     tx['tx_id'] = get_tx_id(prepare_tx_id_hexstr)
 
@@ -562,4 +563,203 @@ def decode_raw_tx(raw_transaction_str, network_str):
 
 def sig_hash(hash_id, tx_id):
     return sha3_256(bytes.fromhex(hash_id + tx_id)).hexdigest()
+
+
+def byte(x):
+    ret = []
+    while x > 1:
+        ret.append(str(x % 2))
+        x = x >> 1
+    ret.append(str(x))
+    ret.reverse()
+    s = ''.join(ret)
+    if len(s) >= 8:
+        return s[-8:]
+    else:
+        return "".join((["0"] * (8-len(s)))) + s
+
+
+hex_dic = {}
+base = [str(x) for x in range(10)] + [ chr(x) for x in range(ord('a'),ord('a')+6)]
+for i in range(len(base)):
+    hex_dic[i] = base[i]
+
+
+def dec2hex(x):
+    a = int(x[0]) * 8 + int(x[1]) * 4 + int(x[2]) * 2 + int(x[3])
+    b = int(x[4]) * 8 + int(x[5]) * 4 + int(x[6]) * 2 + int(x[7])
+
+    return hex_dic[a] + hex_dic[b]
+
+
+def convert(x):
+    val = byte(x)
+    val = "1" + val[1:]
+    return dec2hex(val)
+
+
+def put_uvarint(x):
+    i = 0
+    s = ""
+    while x >= 0x80:
+        s += str(convert(x))
+        x = x >> 7
+        i = i + 1
+
+    s += dec2hex(byte(x))
+    return s
+
+def int_byte(v):
+    if v % 2 == 0:
+        return int(v / 2)
+    else:
+        return int((v + 1) / 2)
+
+def write_var_str(s):
+    return ''.join([put_uvarint(int_byte(len(s))), s])
+
+def write_extensible_string(s):
+    return ''.join([put_uvarint(int_byte(len(s))), s])
+
+def write_var_list(arr_str):
+    ret = []
+    ret.append(put_uvarint(len(arr_str)))
+    for i in range(len(arr_str)):
+        ret.append(write_var_str(arr_str[i]))
+    return ''.join(ret)
+
+
+def write_spend_dic(input_dic):
+    arr = []
+    arr.append(input_dic["source_id"])
+    arr.append(input_dic["asset_id"])
+    arr.append(put_uvarint(input_dic["amount"]))
+    arr.append(put_uvarint(input_dic["source_positon"]))
+    arr.append("01")       # vm version
+    arr.append(write_var_str(input_dic["control_program"]))
+    arr.append(write_var_list(input_dic["state_data"]))
+
+    return write_extensible_string(''.join(arr))
+
+
+def write_vote_dic(input_dic):
+    arr = []
+    arr.append(input_dic["source_id"])
+    arr.append(input_dic["asset_id"])
+    arr.append(put_uvarint(input_dic["amount"]))
+    arr.append(put_uvarint(input_dic["source_positon"]))
+    arr.append("01")
+    arr.append(write_var_str(input_dic["control_program"]))
+    arr.append(write_var_list(input_dic["state_data"]))
+
+    msg = write_extensible_string(''.join(arr))
+    msg += write_var_str(input_dic["vote"])
+    return msg 
+
+
+def write_serialize_input_commitment(input_dic):
+    arr = []
+
+    if input_dic["type"] == "issue":
+        arr.append("00")    # issue type
+        arr.append(write_var_str(input_dic["nonce"]))
+        arr.append(input_dic["asset_id"])
+        arr.append(put_uvarint(input_dic["amount"]))
+        
+    elif input_dic["type"] == "spend":
+        arr.append("01")    # spend type
+        arr.append(write_spend_dic(input_dic))
+
+    elif input_dic["type"] == "coinbase":
+        arr.append("02")    # coinbase type
+        arr.append(write_var_str(input_dic["arbitrary"]))
+
+    elif input_dic["type"] == "vote":
+        
+        arr.append("03") # vote flag
+        arr.append(write_vote_dic(input_dic))
+
+    return ''.join(arr)
+
+def write_serialize_input_witness(input_dic):
+    arr = []
+
+    if input_dic["type"] == "issue":
+        #arr.append(write_var_str(input_dic["asset_definition"]))
+        arr.append(write_var_str(stringToHexString(input_dic["asset_definition"])))
+        arr.append("01")    # vm_version
+        arr.append(write_var_str(input_dic["issuance_program"]))
+        arr.append(write_var_list(input_dic["witness_arguments"]))
+
+    elif input_dic["type"] == "spend":
+        arr.append(write_var_list(input_dic["witness_arguments"]))
+
+    elif input_dic["type"] == "coinbase":
+        pass
+    elif input_dic["type"] == "vote":
+        arr.append(write_var_list(input_dic["witness_arguments"]))
+
+    return ''.join(arr)
+
+def bytesToHexString(bs):
+    return ''.join(['%02X' % b for b in bs])
+
+def stringToHexString(s):
+    bs = bytes(s,encoding='utf8')
+    return bytesToHexString(bs)
+
+# def write_output(output_dic):
+#     arr = []
+#     return ''.join(arr)
+
+def write_serialize_output_commitment(output_dic):
+    arr = []
+
+    if output_dic["type"] == "vote":
+        arr.append(write_var_str(output_dic["vote"]))
+        arr.append(output_dic["asset_id"])
+        arr.append(put_uvarint(output_dic["amount"]))
+        arr.append("01")        # vm version
+        arr.append(write_var_str(output_dic["control_program"]))
+        arr.append(write_var_list(output_dic["state_data"]))
+
+    else:
+        arr.append(output_dic["asset_id"])
+        arr.append(put_uvarint(output_dic["amount"]))
+        arr.append("01")        # vm version
+        arr.append(write_var_str(output_dic["control_program"]))
+        arr.append(write_var_list(output_dic["state_data"]))
+
+    return ''.join(arr)
+
+
+def encode_raw_tx(tx):
+    arr = []
+    arr.append("07")    # serflags
+    arr.append("01")    # versions
+    arr.append(put_uvarint(tx["time_range"]))
+    arr.append(put_uvarint(len(tx["inputs"])))
+    for i in range(len(tx["inputs"])):
+        arr.append("01")  # asset version
+
+        arr.append(write_extensible_string(write_serialize_input_commitment(tx["inputs"][i])))
+        arr.append(write_extensible_string(write_serialize_input_witness(tx["inputs"][i])))
+    
+    arr.append(put_uvarint(len(tx["outputs"])))
+    for i in range(len(tx["outputs"])):
+        output_dic = tx["outputs"][i]
+
+        arr.append("01")  # asset version
+        if output_dic["type"] == "vote":
+            arr.append("01")       # 投票output
+
+        else:
+            arr.append("00")       # 正常output type
+            
+        arr.append(write_extensible_string(write_serialize_output_commitment(output_dic)))
+
+        arr.append("00")    # outputWitness
+
+    return ''.join(arr)
+
 

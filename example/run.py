@@ -56,7 +56,10 @@ actions = [
 
 template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
 print("template: " + str(template))
-decoded_tx = api.decode_raw_transaction(template["raw_transaction"], return_dict=True)
+# decoded_tx = api.decode_raw_transaction(template["raw_transaction"], return_dict=True)
+# print("decoded_tx: " + str(decoded_tx))
+
+decoded_tx = decode_raw_transaction(template["raw_transaction"], "solonet")
 print("decoded_tx: " + str(decoded_tx))
 
 #mnemonic_str = "head verb dose torch divert bulb abstract shaft fatal pet accident else"

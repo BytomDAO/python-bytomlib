@@ -7,6 +7,7 @@ from binascii import unhexlify
 
 from pybtmsdk.key import get_child_xprv, get_xpub, get_seed, get_root_xprv, xprv_sign
 from pybtmsdk import utils
+from pybtmsdk.transaction import encode_raw_tx
 
 
 def find_dist(private_keys, xpub):
@@ -44,8 +45,7 @@ def generate_signatures(private_keys, input_template, input_decoded_tx):
                 if wc["signatures"] is None or len(wc["signatures"]) < len(wc["keys"]):
                     wc["signatures"] = ["" for i in range(0, len(wc["keys"]))]
 
-                wc["pubkeys"] = ["" for i in range(len(wc["keys"]))]
-
+                witness_arguments_arr = []
                 message = decoded_tx["inputs"][signing["position"]]["sign_data"]
 
                 for j, key in enumerate(wc["keys"]):
@@ -62,15 +62,21 @@ def generate_signatures(private_keys, input_template, input_decoded_tx):
 
                         sig = xprv_sign(expanded_prv, message)
                         
+                        witness_arguments_arr.append(sig)
+                        witness_arguments_arr.append(get_xpub(expanded_prv))
+
                         print("sig: %s" % sig)
                         wc["signatures"][j] = sig
-                        wc["pubkeys"][j] = get_xpub(expanded_prv)
                         result["signing_instructions"][i]["witness_components"][j]["signatures"] = wc["signatures"]
+                
+                decoded_tx["inputs"][signing["position"]]["witness_arguments"] = witness_arguments_arr
                 break
             elif wc.type == "":
                 break
             else:
                 continue
+
+    result["raw_transaction"] = encode_raw_tx(decoded_tx)
 
     return {
         "transaction": result,
