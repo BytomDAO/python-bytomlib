@@ -517,7 +517,7 @@ print("basic_signed: " + str(basic_signed))
 or 
 
 mnemonic_str = "famous atom coral belt grab together patrol steak forum undo someone motor"
-basic_signed = generate_signatures_use_mnemonic(["mnemonic_str"], template, decoded_tx)
+basic_signed = generate_signatures_use_mnemonic([mnemonic_str], template, decoded_tx)
 print("basic_signed: " + str(basic_signed))
 print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 
@@ -562,8 +562,15 @@ private_keys = ["08bdbd6c22856c5747c930f64d0e5d58ded17c4473910c6c0c3f94e485833a4
 print("private_keys: " + str(private_keys))
 basic_signed = generate_signatures(private_keys, template, decoded_tx)
 print("basic_signed: " + str(basic_signed))
-result = api.sign_transaction("", basic_signed, return_dict=True)
-print("result raw_transaction: " + str(result))
+print(api.submit_transaction(result["transaction"]["raw_transaction"]))
+
+or 
+
+mnemonic_str = "famous atom coral belt grab together patrol steak forum undo someone motor"
+basic_signed = generate_signatures_use_mnemonic([mnemonic_str, mnemonic_str], template, decoded_tx)
+print("basic_signed: " + str(basic_signed))
+print(api.submit_transaction(result["transaction"]["raw_transaction"]))
+
 ```
 
 multi keys and multi inputs example:
