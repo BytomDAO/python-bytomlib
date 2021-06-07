@@ -616,12 +616,18 @@ def int_byte(v):
         return int((v + 1) / 2)
 
 def write_var_str(s):
+    if s is None:
+        s = ""
     return ''.join([put_uvarint(int_byte(len(s))), s])
 
 def write_extensible_string(s):
+    if s is None:
+        s = ""
     return ''.join([put_uvarint(int_byte(len(s))), s])
 
 def write_var_list(arr_str):
+    if arr_str is None:
+        arr_str = []
     ret = []
     ret.append(put_uvarint(len(arr_str)))
     for i in range(len(arr_str)):

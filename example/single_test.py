@@ -1,0 +1,17 @@
+# coding:utf-8
+import time
+
+from pybtmsdk import BytomAPI
+from pybtmsdk.transaction import decode_raw_tx, encode_raw_tx
+from pybtmsdk.signature import generate_signatures_use_mnemonic
+
+
+raw_transaction = "070189e6f68506010161015feba550aa3865b36103c49c8a261e5350edeea499b1fb7aed80a60ab498c74900ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8094ebdc030101160014be416094fef308e719c6e270b4fd1d02599757290001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80dfd2dc03011600143280ea1eb2e172cb0d4f647b7e6bfed352f43fdc000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffb0ea01011600148b93f5a0fffb0ae88ea82cf90350cef6f008d7370000"
+
+
+decoded_tx = decode_raw_tx(raw_transaction, "solonet")
+print("decoded_tx: " + str(decoded_tx))
+
+
+encode_transaction = encode_raw_tx(decoded_tx)
+print("encode_transaction: " + encode_transaction)
