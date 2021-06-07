@@ -16,7 +16,6 @@ def find_dist(private_keys, xpub):
         temp_xpub = get_xpub(key)
         if xpub == temp_xpub:
             dst = i
-            print("private[dst]: ", private_keys[dst])
             break
 
     if dst == -1:
@@ -63,7 +62,7 @@ def generate_signatures(private_keys, input_template, input_decoded_tx):
                         sig = xprv_sign(expanded_prv, message)
                         
                         witness_arguments_arr.append(sig)
-                        witness_arguments_arr.append(get_xpub(expanded_prv))
+                        witness_arguments_arr.append(get_xpub(expanded_prv)[:64])
 
                         print("sig: %s" % sig)
                         wc["signatures"][j] = sig

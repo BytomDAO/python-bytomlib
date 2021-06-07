@@ -2,7 +2,7 @@
 
 
 from pybtmsdk import BytomAPI
-from pybtmsdk.transaction import decode_raw_tx
+from pybtmsdk.transaction import decode_raw_tx, encode_raw_tx
 from pybtmsdk.signature import generate_signatures_use_mnemonic
 
 url = 'http://139.224.216.240:9887'
@@ -26,12 +26,12 @@ actions = [
       "asset_id": asset_id,
       "type": "spend_account"
     },
-    {
-      "account_id": "1QEPIO7OG0A02",
-      "amount": 300000,
-      "asset_id": asset_id,
-      "type": "spend_account"
-    },
+    # {
+    #   "account_id": "1QEPIO7OG0A02",
+    #   "amount": 300000,
+    #   "asset_id": asset_id,
+    #   "type": "spend_account"
+    # },
     {
       "amount": 30000,
       "asset_id": asset_id,
@@ -59,7 +59,7 @@ print("template: " + str(template))
 # decoded_tx = api.decode_raw_transaction(template["raw_transaction"], return_dict=True)
 # print("decoded_tx: " + str(decoded_tx))
 
-decoded_tx = decode_raw_transaction(template["raw_transaction"], "solonet")
+decoded_tx = decode_raw_tx(template["raw_transaction"], "solonet")
 print("decoded_tx: " + str(decoded_tx))
 
 #mnemonic_str = "head verb dose torch divert bulb abstract shaft fatal pet accident else"
@@ -74,19 +74,26 @@ mnemonic_str = "famous atom coral belt grab together patrol steak forum undo som
 basic_signed = generate_signatures_use_mnemonic([mnemonic_str], template, decoded_tx)
 print("basic_signed: " + str(basic_signed))
 
+result = basic_signed
 
-basic_signed = template
-print("what")
-result = api.sign_transaction(password="12345", transaction=basic_signed, return_dict=True)
-print("result raw_transaction: " + str(result))
 
-# result = api.sign_transaction(password="12345", transaction=template, return_dict=True)
+print("first:", result["transaction"]["raw_transaction"])
+print(api.submit_transaction(result["transaction"]["raw_transaction"]))
+
+# basic_signed = template
+# print("what")
+# result = api.sign_transaction(password="12345", transaction=basic_signed, return_dict=True)
 # print("result raw_transaction: " + str(result))
 
-print(result["transaction"]["raw_transaction"])
-print("server signed:", api.decode_raw_transaction(result["transaction"]["raw_transaction"], return_dict=True))
+# result = api.sign_transaction(password="12345", transaction=template, return_dict=True)
+# print("result raw_transaction: " , result)
+
+# print("second", result["transaction"]["raw_transaction"])
 # result = api.submit_transaction(raw_transaction=result["transaction"]["raw_transaction"])
 # print("submit : " , result)
+
+
+#print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 
 ##############
 ## decode test

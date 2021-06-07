@@ -479,6 +479,7 @@ single key example:
 from pybtmsdk.signature import generate_signatures
 from pybtmsdk.models import APIModel
 from pybtmsdk.client import BytomAPI
+from pybtmsdk.transaction import decode_raw_tx, encode_raw_tx
 
 api = BytomAPI()
 
@@ -506,14 +507,20 @@ actions = [
 ]
 template = api.build_transaction(base_transaction=None, actions=actions, ttl=0, time_range=1521625823, return_dict=True)
 print("template: " + str(template))
-decoded_tx = api.decode_raw_transaction(template["raw_transaction"], return_dict=True)
+decoded_tx = decode_raw_transaction(template["raw_transaction"], return_dict=True)
 print("decoded_tx: " + str(decoded_tx))
 private_keys = ["10fdbc41a4d3b8e5a0f50dd3905c1660e7476d4db3dbd9454fa4347500a633531c487e8174ffc0cfa76c3be6833111a9b8cd94446e37a76ee18bb21a7d6ea66b"]
 print("private_keys: " + str(private_keys))
 basic_signed = generate_signatures(private_keys, template, decoded_tx)
 print("basic_signed: " + str(basic_signed))
-result = api.sign_transaction("", basic_signed, return_dict=True)
-print("result raw_transaction: " + str(result))
+
+or 
+
+mnemonic_str = "famous atom coral belt grab together patrol steak forum undo someone motor"
+basic_signed = generate_signatures_use_mnemonic(["mnemonic_str"], template, decoded_tx)
+print("basic_signed: " + str(basic_signed))
+print(api.submit_transaction(result["transaction"]["raw_transaction"]))
+
 ```
 
 multi keys example:
