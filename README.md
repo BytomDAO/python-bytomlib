@@ -622,11 +622,17 @@ print("decoded_tx: " + str(decoded_tx))
 private_keys = ["08bdbd6c22856c5747c930f64d0e5d58ded17c4473910c6c0c3f94e485833a436247976253c8e29e961041ad8dfad9309744255364323163837cbef2483b4f67",
                 "40c821f736f60805ad59b1fea158762fa6355e258601dfb49dda6f672092ae5adf072d5cab2ceaaa0d68dd3fe7fa04869d95afed8c20069f446a338576901e1b",
                 "08bdbd6c22856c5747c930f64d0e5d58ded17c4473910c6c0c3f94e485833a436247976253c8e29e961041ad8dfad9309744255364323163837cbef2483b4f67"]
-print("private_keys: " + str(private_keys))
+print("private_keys: " , str(private_keys))
 basic_signed = generate_signatures(private_keys, template, decoded_tx)
+print("basic_signed: " , str(basic_signed))
+
+or 
+
+mnemonic_str = "famous atom coral belt grab together patrol steak forum undo someone motor"
+basic_signed = generate_signatures_use_mnemonic([mnemonic_str, mnemonic_str, mnemonic_str], template, decoded_tx)
 print("basic_signed: " + str(basic_signed))
-result = api.sign_transaction("", basic_signed, return_dict=True)
-print("result raw_transaction: " + str(result))
+print(api.submit_transaction(result["transaction"]["raw_transaction"]))
+
 ```
 
 ### 3.3 Interaction with bytom
