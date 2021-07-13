@@ -641,6 +641,7 @@ print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 #### available with wallet enable
 
 * [`create-key`](#create-key)
+* [`update-key-alias](#update-key-alias)
 * [`list-keys`](#list-keys)
 * [`delete-key`](#delete-key)
 * [`check-key-password`](#check-key-password)
@@ -772,6 +773,43 @@ ret.file        # /home/yang/.bytom/keystore/UTC--2018-10-10T07-08-51.815030323Z
   "xpub": "c7bcb65febd31c6d900bc84c386d95c3d5b047090628d9bf5c51a848945b6986e99ff70388018a7681fa37a240dbd8df39a994c86f9314a61e75feb33563ca72",
   "file": "/home/yang/.bytom/keystore/UTC--2018-10-10T07-08-51.815030323Z--46ee932e-88d3-4680-a5c1-dd9e63918fcc"
 }
+```
+</details>
+
+----
+
+#### `update-key-alias`
+
+It is to update key's alias.
+
+##### Parameters
+
+`Object`:
+
+- `String` - *xpub*, pubkey which one you want to rename.
+- `String` - *new_alias*, the new alias of xpub.
+
+##### Returns
+
+`Object`: None
+
+##### Example
+
+update key alias:
+
+```python
+ret = api.update_key_alias("abcd", "24a877a92463a87f849215195052a9e4715a5bfaa6aa509df90e99c85f482652b7bcd4bd7c5de6884efc044505fda598ded64f9ed7657331da44e9631bb53f10")
+# object
+ret # ret is None, if not success, will return error info
+```
+<details>
+<summary>Output</summary>
+
+```json
+# object output
+None
+# json output
+{}
 ```
 </details>
 

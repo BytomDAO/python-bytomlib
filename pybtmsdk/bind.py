@@ -61,7 +61,6 @@ def bind_method(**config):
                 self.parameters[key] = value
 
         def _do_api_request(self, url, body=None, headers=None):
-            print(url)
             response = RPCRequest(self.api).make_request(url, body=body, headers=headers)
             try:
                 print(response.text)
