@@ -6,6 +6,7 @@ from pybtmsdk.transaction import decode_raw_tx, encode_raw_tx
 from pybtmsdk.signature import generate_signatures_use_mnemonic
 
 url = 'http://139.224.216.240:9887'
+url = 'http://127.0.0.1:9888'
 access_token = 'YOUR_ACCESS_TOKEN'
 
 api = BytomAPI(url=url)

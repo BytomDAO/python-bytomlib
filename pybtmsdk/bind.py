@@ -61,8 +61,10 @@ def bind_method(**config):
                 self.parameters[key] = value
 
         def _do_api_request(self, url, body=None, headers=None):
+            print(url)
             response = RPCRequest(self.api).make_request(url, body=body, headers=headers)
             try:
+                print(response.text)
                 api_ret = response.json()
             except ValueError:
                 raise BytomClientError('Unable to parse response, not valid JSON.', status_code=response.status_code)

@@ -75,7 +75,7 @@ def get_spend_output_id(source_id_hexstr, asset_id_hexstr, amount_int, source_po
     cp_length_hexstr = cp_length_int.to_bytes((cp_length_int.bit_length() + 7) // 8, byteorder='little').hex()
     sc_hexstr = source_id_hexstr + asset_id_hexstr + amount_hexstr + source_position_hexstr + vmversion_hexstr + cp_length_hexstr +  control_program_hexstr + for_spend_id_state_hexstr
     innerhash_bytes = sha3_256(bytes.fromhex(sc_hexstr)).digest()
-    spend_bytes = b'entryid:output1:' + innerhash_bytes
+    spend_bytes = b'entryid:originalOutput1:' + innerhash_bytes
     spend_output_id_hexstr = sha3_256(spend_bytes).hexdigest()
     return spend_output_id_hexstr
 
@@ -88,7 +88,7 @@ def get_vote_spend_output_id(source_id_hexstr, asset_id_hexstr, amount_int, sour
     cp_length_hexstr = cp_length_int.to_bytes((cp_length_int.bit_length() + 7) // 8, byteorder='little').hex()
     sc_hexstr = source_id_hexstr + asset_id_hexstr + amount_hexstr + source_position_hexstr + vmversion_hexstr + cp_length_hexstr +  control_program_hexstr + xpub_str + for_vote_id_state_hexstr
     innerhash_bytes = sha3_256(bytes.fromhex(sc_hexstr)).digest()
-    spend_bytes = b'entryid:voteoutput1:' + innerhash_bytes
+    spend_bytes = b'entryid:voteOutput1:' + innerhash_bytes
     spend_output_id_hexstr = sha3_256(spend_bytes).hexdigest()
     return spend_output_id_hexstr
 
@@ -121,13 +121,13 @@ def get_mux_id(prepare_mux_hexstr):
 
 def get_output_id(prepare_output_id_hexstr):
     innerhash_bytes = sha3_256(bytes.fromhex(prepare_output_id_hexstr)).digest()
-    output_id_hexstr = sha3_256(b'entryid:output1:' + innerhash_bytes).hexdigest()
+    output_id_hexstr = sha3_256(b'entryid:originalOutput1:' + innerhash_bytes).hexdigest()
     return output_id_hexstr
 
 
 def get_vote_output_id(prepare_output_id_hexstr):
     innerhash_bytes = sha3_256(bytes.fromhex(prepare_output_id_hexstr)).digest()
-    output_id_hexstr = sha3_256(b'entryid:voteoutput1:' + innerhash_bytes).hexdigest()
+    output_id_hexstr = sha3_256(b'entryid:voteOutput1:' + innerhash_bytes).hexdigest()
     return output_id_hexstr
 
 
