@@ -641,7 +641,7 @@ print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 #### available with wallet enable
 
 * [`create-key`](#create-key)
-* [`update-key-alias](#update-key-alias)
+* [`update-key-alias`](#update-key-alias)
 * [`list-keys`](#list-keys)
 * [`delete-key`](#delete-key)
 * [`check-key-password`](#check-key-password)
