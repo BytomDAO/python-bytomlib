@@ -654,6 +654,7 @@ print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 * [`list-addresses`](#list-addresses)
 * [`validate-address`](#validate-address)
 * [`list-pubkeys`](#list-pubkeys)
+* [`get-mining-address`](#get-mining-address)
 * [`create-asset`](#create-asset)
 * [`get-asset`](#get-asset)
 * [`list-assets`](#list-assets)
@@ -1278,6 +1279,38 @@ ret = api.list_pubkeys("0GO0LLUV00A02")
   ],
   "root_xpub": "94a909319eac179f7694b99b8367b9c02b4414b95961e2e3a5bd887e0616af05a7c5e4448df92cd6cdfd82e57cd7aefc1ee0a7fd0d6a2194b5e5faf82556bedc"
 }
+```
+</details>
+
+----
+
+#### `get-mining-address`
+
+Returns the list of all available pubkeys by account.
+
+##### Parameters
+
+None
+
+##### Returns
+
+`Object`:
+
+- `string` - *mining_address*, mining_address.
+
+##### Example
+
+```python
+ret = api.list_pubkeys("0GO0LLUV00A02")
+```
+<details>
+<summary>Output</summary>
+
+```json
+{
+    "mining_address": "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx"
+}
+
 ```
 </details>
 
