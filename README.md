@@ -656,6 +656,7 @@ print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 * [`list-pubkeys`](#list-pubkeys)
 * [`get-mining-address`](#get-mining-address)
 * [`set-mining-address`](#set-mining-address)
+* [`recovery-wallet`](#recovery-wallet)
 * [`create-asset`](#create-asset)
 * [`get-asset`](#get-asset)
 * [`list-assets`](#list-assets)
@@ -1344,6 +1345,33 @@ ret = api.get_mining_address()
     "mining_address": "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx"
 }
 
+```
+</details>
+
+----
+
+#### `recovery-wallet`
+
+Recovery wallet from the pubkey.
+
+##### Parameters
+
+- `Array of String` - *root_xpubs*, pubkey array.
+
+##### Returns
+
+none
+
+##### Example
+
+```python
+ret = api.recovery_wallet(xpubs=['e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea'])
+```
+<details>
+<summary>Output</summary>
+
+```json
+None
 ```
 </details>
 
