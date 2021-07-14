@@ -1,5 +1,6 @@
 # coding:utf-8
 
+import time
 
 from pybtmsdk import BytomAPI
 from pybtmsdk.transaction import decode_raw_tx, encode_raw_tx
@@ -168,18 +169,283 @@ Object(account_image=Object(slices=[Object(account=Object(type='account', xpubs=
 None
 '''
 
-#print(api.wallet_info())
+# print(api.wallet_info())
 '''
 {'status': 'success', 'data': {'best_block_height': 432, 'wallet_height': 432}}
 Object(best_block_height=432, wallet_height=432)
 '''
 
-#print(api.recovery_wallet(xpubs=['e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea']))
+# print(api.recovery_wallet(xpubs=['e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea']))
 '''
 {'status': 'success'}
 None
 '''
 
-print(api.sign_message)
+# print(api.sign_message(address="sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx", message="abcd", password="86458043"))
+'''
+{'status': 'success', 'data': {'signature': '91d27b6e5e7c4a1844a80899e4bea179a6a02d9e1a29a371c892fc5fa4b2e08ed1f5b05dd08cad3a870c239614365e7ec3efc3ec08db1c24270db7b53dcdae09', 'derived_xpub': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376ebbf8f3bb3e26e97d636c6aa3f8eb0c790b845240113ceb16503bd2c8349d82b3'}}
+Object(signature='91d27b6e5e7c4a1844a80899e4bea179a6a02d9e1a29a371c892fc5fa4b2e08ed1f5b05dd08cad3a870c239614365e7ec3efc3ec08db1c24270db7b53dcdae09', derived_xpub='e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376ebbf8f3bb3e26e97d636c6aa3f8eb0c790b845240113ceb16503bd2c8349d82b3')
+'''
+
+# print(api.decode_program(program="0014462adc0c3aa6ad7b12e110b03477acded3455aa3"))
+'''
+{'status': 'success', 'data': {'instructions': 'DUP \nHASH160 \nDATA_20 462adc0c3aa6ad7b12e110b03477acded3455aa3\nEQUALVERIFY \nTXSIGHASH \nSWAP \nCHECKSIG \n'}}
+Object(instructions='DUP \nHASH160 \nDATA_20 462adc0c3aa6ad7b12e110b03477acded3455aa3\nEQUALVERIFY \nTXSIGHASH \nSWAP \nCHECKSIG \n')
+'''
+
+# print(api.get_transaction(tx_id="f52c3e16747879471514df2dbfec7063d4bf34c0fd08ec094e0ba7a5e707bb2b"))
+'''
+{'status': 'success', 'data': {'tx_id': 'f52c3e16747879471514df2dbfec7063d4bf34c0fd08ec094e0ba7a5e707bb2b', 'block_time': 1626227886000, 'block_hash': 'b39fea622676f727fa5d7566642c0f19391bf1df8d840f26eed6d9dd98abb730', 'block_height': 527, 'block_index': 0, 'block_transactions_count': 1, 'inputs': [{'type': 'coinbase', 'asset_id': '0000000000000000000000000000000000000000000000000000000000000000', 'asset_definition': None, 'amount': 0, 'arbitrary': '00353237', 'input_id': 'd73da8eda907fe0314f01fe5910f32316e6580b8b341b0954402f1cb69720530', 'witness_arguments': None, 'sign_data': '0000000000000000000000000000000000000000000000000000000000000000'}], 'outputs': [{'type': 'control', 'id': '1979e57feda22efe713f25ae175624cf1f7ea1130936457d02a1c0155c67f8b1', 'position': 0, 'asset_id': 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', 'asset_alias': 'BTM', 'asset_definition': {'decimals': 8, 'description': 'Bytom Official Issue', 'name': 'BTM', 'symbol': 'BTM'}, 'amount': 0, 'account_id': '1SA0QDN500A02', 'account_alias': 'ipqhjjybj', 'control_program': '00144a068fe5ff924d078be11a6807a8502b22268f0c', 'address': 'sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx'}], 'size': 76}}
+Object(tx_id='f52c3e16747879471514df2dbfec7063d4bf34c0fd08ec094e0ba7a5e707bb2b', block_time=1626227886000, block_hash='b39fea622676f727fa5d7566642c0f19391bf1df8d840f26eed6d9dd98abb730', block_height=527, block_index=0, block_transactions_count=1, inputs=[Object(type='coinbase', asset_id='0000000000000000000000000000000000000000000000000000000000000000', asset_definition=None, amount=0, arbitrary='00353237', input_id='d73da8eda907fe0314f01fe5910f32316e6580b8b341b0954402f1cb69720530', witness_arguments=None, sign_data='0000000000000000000000000000000000000000000000000000000000000000')], outputs=[Object(type='control', id='1979e57feda22efe713f25ae175624cf1f7ea1130936457d02a1c0155c67f8b1', position=0, asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_alias='BTM', asset_definition=Object(decimals=8, description='Bytom Official Issue', name='BTM', symbol='BTM'), amount=0, account_id='1SA0QDN500A02', account_alias='ipqhjjybj', control_program='00144a068fe5ff924d078be11a6807a8502b22268f0c', address='sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx')], size=76)
+'''
+
+# print(api.list_transactions(account_id="1SA0QDN500A02", count=2))
+'''
+{'status': 'success', 'data': [{'tx_id': '7e80560a4cabe8afdf52566e0ca16caf91fcfcd5897ee315660d939fe5c80fc1', 'block_time': 1626227988000, 'inputs': [{'type': 'coinbase', 'asset_id': '0000000000000000000000000000000000000000000000000000000000000000', 'arbitrary': '00353434'}], 'outputs': [{'type': 'control', 'asset_id': 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', 'asset_alias': 'BTM', 'account_id': '1SA0QDN500A02', 'account_alias': 'ipqhjjybj'}]}, {'tx_id': '94a723b1ef1fbcc336648638ff9dfb770b5f6ca9fe2b61ac32053477899d56bf', 'block_time': 1626227982000, 'inputs': [{'type': 'coinbase', 'asset_id': '0000000000000000000000000000000000000000000000000000000000000000', 'arbitrary': '00353433'}], 'outputs': [{'type': 'control', 'asset_id': 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', 'asset_alias': 'BTM', 'account_id': '1SA0QDN500A02', 'account_alias': 'ipqhjjybj'}]}]}
+[Object(tx_id='7e80560a4cabe8afdf52566e0ca16caf91fcfcd5897ee315660d939fe5c80fc1', block_time=1626227988000, inputs=[Object(type='coinbase', asset_id='0000000000000000000000000000000000000000000000000000000000000000', arbitrary='00353434')], outputs=[Object(type='control', asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_alias='BTM', account_id='1SA0QDN500A02', account_alias='ipqhjjybj')]), Object(tx_id='94a723b1ef1fbcc336648638ff9dfb770b5f6ca9fe2b61ac32053477899d56bf', block_time=1626227982000, inputs=[Object(type='coinbase', asset_id='0000000000000000000000000000000000000000000000000000000000000000', arbitrary='00353433')], outputs=[Object(type='control', asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_alias='BTM', account_id='1SA0QDN500A02', account_alias='ipqhjjybj')])]
+'''
+
+actions = [
+    {
+        "account_id": "1SA0QDN500A02",
+        "amount": 4000000,
+        "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "type": "spend_account"
+    },
+    # {
+    #   "account_id": "1QEPIO7OG0A02",
+    #   "amount": 300000,
+    #   "asset_id": asset_id,
+    #   "type": "spend_account"
+    # },
+    {
+        "amount": 2000000,
+        "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "address": "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx",
+        "type": "control_address"
+    }
+]
+
+# print(api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=int(time.time()),
+#                             return_dict=True))
+'''
+{'status': 'success', 'data': {'raw_transaction': '07018391b98706010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': None}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 200, 'allow_additional_actions': False}}
+{'raw_transaction': '07018391b98706010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': None}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 200, 'allow_additional_actions': False}
+'''
+
+# print(api.build_chain_transactions(base_transaction=None, actions=actions, ttl=10,
+#                                    time_range=int(time.time()), return_dict=True))
+'''
+{'status': 'success', 'data': [{'raw_transaction': '070100010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': None}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 200, 'allow_additional_actions': False}]}
+[{'raw_transaction': '070100010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': None}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 200, 'allow_additional_actions': False}]
+'''
+
+# template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
+# print(api.sign_transaction(password="86458043", transaction=template))
+
+'''
+{'status': 'success', 'data': {'transaction': {'raw_transaction': '0701dfd5c8d505010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c00630240043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': ['043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d']}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 200, 'allow_additional_actions': False}, 'sign_complete': True}}
+Object(transaction=Object(raw_transaction='0701dfd5c8d505010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c00630240043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', signing_instructions=[Object(position=0, witness_components=[Object(type='raw_tx_signature', quorum=1, keys=[Object(xpub='e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', derivation_path=['2c000000', '99000000', '01000000', '00000000', '02000000'])], signatures=['043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d']), Object(type='data', value='e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e')])], fee=200, allow_additional_actions=False), sign_complete=True)
+'''
+
+# template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
+# print(api.sign_transactions(password="86458043", transactions=[template]))
+
+'''
+{'status': 'success', 'data': {'transaction': [{'raw_transaction': '0701dfd5c8d505010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c00630240043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': ['043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d']}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 200, 'allow_additional_actions': False}], 'sign_complete': True}}
+Object(transaction=[Object(raw_transaction='0701dfd5c8d505010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c00630240043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', signing_instructions=[Object(position=0, witness_components=[Object(type='raw_tx_signature', quorum=1, keys=[Object(xpub='e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', derivation_path=['2c000000', '99000000', '01000000', '00000000', '02000000'])], signatures=['043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d']), Object(type='data', value='e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e')])], fee=200, allow_additional_actions=False)], sign_complete=True)
+'''
+
+# template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
+# data = api.sign_transaction(password="86458043", transaction=template, return_dict=True)
+# print(api.submit_transaction(raw_transaction=data["transaction"]["raw_transaction"]))
+
+'''
+{"status":"success","data":{"raw_transaction":"0701dfd5c8d505010161015fa3b5efee4fe6d913b818295df4148fe0ff0b026d2f0a74ceefa0b6cfd0797018ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000","signing_instructions":[{"position":0,"witness_components":[{"type":"raw_tx_signature","quorum":1,"keys":[{"xpub":"e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea","derivation_path":["2c000000","99000000","01000000","00000000","02000000"]}],"signatures":null},{"type":"data","value":"e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e"}]}],"fee":2000000,"allow_additional_actions":false}}
+
+{'status': 'success', 'data': {'raw_transaction': '0701dfd5c8d505010161015fa3b5efee4fe6d913b818295df4148fe0ff0b026d2f0a74ceefa0b6cfd0797018ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': None}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 2000000, 'allow_additional_actions': False}}
+http://0.0.0.0:9888/sign-transaction
+{"status":"success","data":{"transaction":{"raw_transaction":"0701dfd5c8d505010161015fa3b5efee4fe6d913b818295df4148fe0ff0b026d2f0a74ceefa0b6cfd0797018ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c006302403dde9df8bb6398835e63b9a151d465466bca62a97e3c80bc12c6d5814230b5c17e70ad3845cdd1d5547f9a1f34084d25cde85679da7a142dcac7bfbabc38730a20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000","signing_instructions":[{"position":0,"witness_components":[{"type":"raw_tx_signature","quorum":1,"keys":[{"xpub":"e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea","derivation_path":["2c000000","99000000","01000000","00000000","02000000"]}],"signatures":["3dde9df8bb6398835e63b9a151d465466bca62a97e3c80bc12c6d5814230b5c17e70ad3845cdd1d5547f9a1f34084d25cde85679da7a142dcac7bfbabc38730a"]},{"type":"data","value":"e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e"}]}],"fee":2000000,"allow_additional_actions":false},"sign_complete":true}}
+
+{'status': 'success', 'data': {'transaction': {'raw_transaction': '0701dfd5c8d505010161015fa3b5efee4fe6d913b818295df4148fe0ff0b026d2f0a74ceefa0b6cfd0797018ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c006302403dde9df8bb6398835e63b9a151d465466bca62a97e3c80bc12c6d5814230b5c17e70ad3845cdd1d5547f9a1f34084d25cde85679da7a142dcac7bfbabc38730a20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': ['3dde9df8bb6398835e63b9a151d465466bca62a97e3c80bc12c6d5814230b5c17e70ad3845cdd1d5547f9a1f34084d25cde85679da7a142dcac7bfbabc38730a']}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 2000000, 'allow_additional_actions': False}, 'sign_complete': True}}
+{'transaction': {'raw_transaction': '0701dfd5c8d505010161015fa3b5efee4fe6d913b818295df4148fe0ff0b026d2f0a74ceefa0b6cfd0797018ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c006302403dde9df8bb6398835e63b9a151d465466bca62a97e3c80bc12c6d5814230b5c17e70ad3845cdd1d5547f9a1f34084d25cde85679da7a142dcac7bfbabc38730a20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': ['3dde9df8bb6398835e63b9a151d465466bca62a97e3c80bc12c6d5814230b5c17e70ad3845cdd1d5547f9a1f34084d25cde85679da7a142dcac7bfbabc38730a']}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 2000000, 'allow_additional_actions': False}, 'sign_complete': True}
+http://0.0.0.0:9888/submit-transaction
+{"status":"success","data":{"tx_id":"0e2ce865c77af38ad70119c4eb7e0f74d8071c28428d39f4b238a87519a6a416"}}
+
+{'status': 'success', 'data': {'tx_id': '0e2ce865c77af38ad70119c4eb7e0f74d8071c28428d39f4b238a87519a6a416'}}
+Object(tx_id='0e2ce865c77af38ad70119c4eb7e0f74d8071c28428d39f4b238a87519a6a416')
+
+'''
+
+# template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
+# data = api.sign_transaction(password="86458043", transaction=template, return_dict=True)
+# print(api.submit_transactions(raw_transactions=[data["transaction"]["raw_transaction"]]))
+'''
+{"status":"success","data":{"raw_transaction":"0701dfd5c8d505010161015f758e3ae2dae6417296202ac4ab8c2ccc206b01056bac023c418a2e7ea01eb124ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ccec6a46a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000","signing_instructions":[{"position":0,"witness_components":[{"type":"raw_tx_signature","quorum":1,"keys":[{"xpub":"e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea","derivation_path":["2c000000","99000000","01000000","00000000","02000000"]}],"signatures":null},{"type":"data","value":"e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e"}]}],"fee":2000000,"allow_additional_actions":false}}
+
+{'status': 'success', 'data': {'raw_transaction': '0701dfd5c8d505010161015f758e3ae2dae6417296202ac4ab8c2ccc206b01056bac023c418a2e7ea01eb124ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ccec6a46a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': None}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 2000000, 'allow_additional_actions': False}}
+http://0.0.0.0:9888/sign-transaction
+{"status":"success","data":{"transaction":{"raw_transaction":"0701dfd5c8d505010161015f758e3ae2dae6417296202ac4ab8c2ccc206b01056bac023c418a2e7ea01eb124ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a00011600144a068fe5ff924d078be11a6807a8502b22268f0c00630240fd7fe115767d8034f0a6db8a9884fe2a44a5c0a7a1ccd87c8efae8e684fda13fc6d4aa2a80d859b3b3edf7439b5400e5f43a61aca2d6c378427072d5ccdb0e0b20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ccec6a46a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000","signing_instructions":[{"position":0,"witness_components":[{"type":"raw_tx_signature","quorum":1,"keys":[{"xpub":"e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea","derivation_path":["2c000000","99000000","01000000","00000000","02000000"]}],"signatures":["fd7fe115767d8034f0a6db8a9884fe2a44a5c0a7a1ccd87c8efae8e684fda13fc6d4aa2a80d859b3b3edf7439b5400e5f43a61aca2d6c378427072d5ccdb0e0b"]},{"type":"data","value":"e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e"}]}],"fee":2000000,"allow_additional_actions":false},"sign_complete":true}}
+
+{'status': 'success', 'data': {'transaction': {'raw_transaction': '0701dfd5c8d505010161015f758e3ae2dae6417296202ac4ab8c2ccc206b01056bac023c418a2e7ea01eb124ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a00011600144a068fe5ff924d078be11a6807a8502b22268f0c00630240fd7fe115767d8034f0a6db8a9884fe2a44a5c0a7a1ccd87c8efae8e684fda13fc6d4aa2a80d859b3b3edf7439b5400e5f43a61aca2d6c378427072d5ccdb0e0b20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ccec6a46a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', 'signing_instructions': [{'position': 0, 'witness_components': [{'type': 'raw_tx_signature', 'quorum': 1, 'keys': [{'xpub': 'e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', 'derivation_path': ['2c000000', '99000000', '01000000', '00000000', '02000000']}], 'signatures': ['fd7fe115767d8034f0a6db8a9884fe2a44a5c0a7a1ccd87c8efae8e684fda13fc6d4aa2a80d859b3b3edf7439b5400e5f43a61aca2d6c378427072d5ccdb0e0b']}, {'type': 'data', 'value': 'e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e'}]}], 'fee': 2000000, 'allow_additional_actions': False}, 'sign_complete': True}}
+http://0.0.0.0:9888/submit-transactions
+{"status":"success","data":{"tx_id":["da1a21d35e08b4c377df2220a9b593d0dd17f3b4bd915f2884e8a1460619da53"]}}
+
+{'status': 'success', 'data': {'tx_id': ['da1a21d35e08b4c377df2220a9b593d0dd17f3b4bd915f2884e8a1460619da53']}}
+Object(tx_id=['da1a21d35e08b4c377df2220a9b593d0dd17f3b4bd915f2884e8a1460619da53'])
+'''
+
+# template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
+# print(api.estimate_transaction_gas(transaction_template=template))
+'''
+{'status': 'success', 'data': {'total_neu': 993600, 'flexible_neu': 336600, 'storage_neu': 93400, 'vm_neu': 563600, 'chain_tx_neu': 0}}
+Object(total_neu=993600, flexible_neu=336600, storage_neu=93400, vm_neu=563600, chain_tx_neu=0)
+'''
+
+# template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
+# print(api.estimate_chain_transaction_gas(transaction_templates=[template]))
+'''
+{"status":"success","data":{"total_neu":993600,"flexible_neu":336600,"storage_neu":93400,"vm_neu":563600,"chain_tx_neu":0}}
+Object(total_neu=993600, flexible_neu=336600, storage_neu=93400, vm_neu=563600, chain_tx_neu=0)
+'''
+
+#print(api.create_access_token(id="token1"))
+'''
+{"status":"success","data":{"id":"token1","token":"token1:e464e843f50b91011c3627d02b5682614a5917060debb928735ad038858264ce","created_at":"2021-07-14T10:45:15.844982+08:00"}}
+Object(id='token1', token='token1:e464e843f50b91011c3627d02b5682614a5917060debb928735ad038858264ce', created_at='2021-07-14T10:45:15.844982+08:00')
+Object(id='token1', token='token1:6ef74364d492f972d168ff679263734eb1ee7d10c9668d8b8f093f71373e9bbf', created_at='2021-07-14T10:47:55.285026+08:00')
+{"status":"fail","code":"BTM000","msg":"Bytom API Error","error_detail":"invalid token"}
+
+'''
+
+#print(api.list_access_tokens())
+'''
+{"status":"success","data":[{"id":"token1","token":"token1:e464e843f50b91011c3627d02b5682614a5917060debb928735ad038858264ce","created_at":"2021-07-14T10:45:15.844982+08:00"}]}
+[Object(id='token1', token='token1:e464e843f50b91011c3627d02b5682614a5917060debb928735ad038858264ce', created_at='2021-07-14T10:45:15.844982+08:00')]
+'''
+
+#print(api.delete_access_token(id="token1"))
+'''
+{"status":"success"}
+None
+'''
+
+#print(api.check_access_token(id="token1", secret="6ef74364d492f972d168ff679263734eb1ee7d10c9668d8b8f093f71373e9bbf"))
+'''
+{"status":"success"}
+None
+'''
+
+# print(api.create_contract(alias="", ))
+
+# print(api.create_transaction_feed(alias="test1"))
+'''
+{"status":"success"}
+None
+'''
+
+#print(api.get_transaction_feed(alias="test1"))
+'''
+{"status":"success","data":{"txfeed":{"alias":"test1","param":{}}}}
+Object(txfeed=Object(alias='test1', param=Object()))
+'''
+
+#print(api.list_transaction_feeds())
+'''
+{"status":"success","data":[{"alias":"test1","param":{}}]}
+[Object(alias='test1', param=Object())]
+'''
+
+#print(api.delete_transaction_feed(alias="test1"))
+'''
+{"status":"success"}
+None
+'''
+
+#print(api.update_transaction_feed(alias="test1"))
+'''
+{"status":"success"}
+None
+'''
+
+#print(api.get_unconfirmed_transaction(tx_id="7ffc6e2f206b1480123627061872405cda8cc87a8f79d3e5dc2b43afbc121218"))
+'''
+{"status":"fail","code":"BTM000","msg":"Bytom API Error","error_detail":"transaction are not existed in the mempool"}
+'''
+
+#print(api.list_unconfirmed_transactions())
+'''
+{"status":"success","data":{"total":0,"tx_ids":[]}}
+Object(total=0, tx_ids=[])
+'''
+
+#print(api.decode_raw_transaction(raw_transaction="0701dfd5c8d505010161015f758e3ae2dae6417296202ac4ab8c2ccc206b01056bac023c418a2e7ea01eb124ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ccec6a46a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000"))
+'''
+{"status":"success","data":{"tx_id":"da1a21d35e08b4c377df2220a9b593d0dd17f3b4bd915f2884e8a1460619da53","version":1,"size":240,"time_range":1521625823,"inputs":[{"type":"spend","asset_id":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","asset_definition":{},"amount":28534812700,"control_program":"00144a068fe5ff924d078be11a6807a8502b22268f0c","address":"sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx","spent_output_id":"2ad50c4ced9d418675b0bf0cf4a963d74fbf729796f9e09ef8a8894da2bd524e","input_id":"3b3a328c8efe96f97363fddc1c4a66b713922ea07f1bced7e1435c68a639d6b3","witness_arguments":null,"sign_data":"2ad24339b33bebf7b64561a51ad74490b0fcbc3d3ebd58fc911b2897116accf6"}],"outputs":[{"type":"control","id":"e254b57328255b0c8126e4d41a92f0b6cd51e8833a938e1f90f62a186e895f37","position":0,"asset_id":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","asset_definition":{},"amount":28530812700,"control_program":"00144a068fe5ff924d078be11a6807a8502b22268f0c","address":"sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx"},{"type":"control","id":"dc9d12c22b783fa0b0d26699bd7a5d0a119dcc37bff240d2ed8ec478f636945c","position":1,"asset_id":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","asset_definition":{},"amount":2000000,"control_program":"00144a068fe5ff924d078be11a6807a8502b22268f0c","address":"sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx"}],"fee":2000000}}
+Object(tx_id='da1a21d35e08b4c377df2220a9b593d0dd17f3b4bd915f2884e8a1460619da53', version=1, size=240, time_range=1521625823, inputs=[Object(type='spend', asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_definition=Object(), amount=28534812700, control_program='00144a068fe5ff924d078be11a6807a8502b22268f0c', address='sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx', spent_output_id='2ad50c4ced9d418675b0bf0cf4a963d74fbf729796f9e09ef8a8894da2bd524e', input_id='3b3a328c8efe96f97363fddc1c4a66b713922ea07f1bced7e1435c68a639d6b3', witness_arguments=None, sign_data='2ad24339b33bebf7b64561a51ad74490b0fcbc3d3ebd58fc911b2897116accf6')], outputs=[Object(type='control', id='e254b57328255b0c8126e4d41a92f0b6cd51e8833a938e1f90f62a186e895f37', position=0, asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_definition=Object(), amount=28530812700, control_program='00144a068fe5ff924d078be11a6807a8502b22268f0c', address='sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx'), Object(type='control', id='dc9d12c22b783fa0b0d26699bd7a5d0a119dcc37bff240d2ed8ec478f636945c', position=1, asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_definition=Object(), amount=2000000, control_program='00144a068fe5ff924d078be11a6807a8502b22268f0c', address='sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx')], fee=2000000)
+'''
+
+#print(api.get_block_count())
+'''
+{"status":"success","data":{"block_count":742}}
+Object(block_count=742)
+'''
+
+#print(api.get_block_hash())
+'''
+{"status":"success","data":{"block_hash":"fc2930d964474df7182734c6e6e18afa235634772e22f0a76480d1ccd73b4cc9"}}
+Object(block_hash='fc2930d964474df7182734c6e6e18afa235634772e22f0a76480d1ccd73b4cc9')
+'''
+
+#print(api.get_block())
+'''
+{"status":"success","data":{"hash":"1615de51985135e0df820351bdf8da42c2eb42ba28e4bd6a9a3c6c6559cda5db","size":448,"version":1,"height":0,"validator":"","previous_block_hash":"0000000000000000000000000000000000000000000000000000000000000000","timestamp":1528945000000,"transaction_merkle_root":"0118f65d7940f8874191fbf83c50dc45988e29c2e741e617ae019ae41356a684","transactions":[{"id":"59cbf59079fcbf26b0a24d4bbf614c74bd06338c9001219abed662525f3a8166","version":1,"size":145,"time_range":0,"inputs":[{"type":"coinbase","asset_id":"0000000000000000000000000000000000000000000000000000000000000000","asset_definition":{},"amount":0,"arbitrary":"496e666f726d6174696f6e20697320706f7765722e202d2d204a616e2f31312f323031332e20436f6d707574696e6720697320706f7765722e202d2d204170722f32342f323031382e","input_id":"953b17a15c82cc524e0e25230736a512809dc1a5fe6c0b29747fa2de2e2d64b4","witness_arguments":null,"sign_data":"0000000000000000000000000000000000000000000000000000000000000000"}],"outputs":[{"type":"control","id":"a57153a4bf0cf00dfd4896022e4918634b7a99ed81393d624bb09fc0e3be2b95","position":0,"asset_id":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","asset_definition":{},"amount":0,"control_program":"00148c9d063ff74ee6d9ffa88d83aeb038068366c4c4","address":"sm1q3jwsv0lhfmndnlag3kp6avpcq6pkd3xyxg7z8f"}],"mux_id":"3c93cef5366c1dff8f09cb3a33f45c309bfb86037209d66bb6dc2c21b65d6352"}]}}
+Object(hash='1615de51985135e0df820351bdf8da42c2eb42ba28e4bd6a9a3c6c6559cda5db', size=448, version=1, height=0, validator='', previous_block_hash='0000000000000000000000000000000000000000000000000000000000000000', timestamp=1528945000000, transaction_merkle_root='0118f65d7940f8874191fbf83c50dc45988e29c2e741e617ae019ae41356a684', transactions=[Object(id='59cbf59079fcbf26b0a24d4bbf614c74bd06338c9001219abed662525f3a8166', version=1, size=145, time_range=0, inputs=[Object(type='coinbase', asset_id='0000000000000000000000000000000000000000000000000000000000000000', asset_definition=Object(), amount=0, arbitrary='496e666f726d6174696f6e20697320706f7765722e202d2d204a616e2f31312f323031332e20436f6d707574696e6720697320706f7765722e202d2d204170722f32342f323031382e', input_id='953b17a15c82cc524e0e25230736a512809dc1a5fe6c0b29747fa2de2e2d64b4', witness_arguments=None, sign_data='0000000000000000000000000000000000000000000000000000000000000000')], outputs=[Object(type='control', id='a57153a4bf0cf00dfd4896022e4918634b7a99ed81393d624bb09fc0e3be2b95', position=0, asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_definition=Object(), amount=0, control_program='00148c9d063ff74ee6d9ffa88d83aeb038068366c4c4', address='sm1q3jwsv0lhfmndnlag3kp6avpcq6pkd3xyxg7z8f')], mux_id='3c93cef5366c1dff8f09cb3a33f45c309bfb86037209d66bb6dc2c21b65d6352')])
+'''
+
+#print(api.get_raw_block())
+'''
+{"status":"success","data":{"raw_block":"0301000000000000000000000000000000000000000000000000000000000000000000c0fce4e1bf2c200118f65d7940f8874191fbf83c50dc45988e29c2e741e617ae019ae41356a684010001000107010001014b0249496e666f726d6174696f6e20697320706f7765722e202d2d204a616e2f31312f323031332e20436f6d707574696e6720697320706f7765722e202d2d204170722f32342f323031382e000101003affffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00011600148c9d063ff74ee6d9ffa88d83aeb038068366c4c40000"}}
+Object(raw_block='0301000000000000000000000000000000000000000000000000000000000000000000c0fce4e1bf2c200118f65d7940f8874191fbf83c50dc45988e29c2e741e617ae019ae41356a684010001000107010001014b0249496e666f726d6174696f6e20697320706f7765722e202d2d204a616e2f31312f323031332e20436f6d707574696e6720697320706f7765722e202d2d204170722f32342f323031382e000101003affffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00011600148c9d063ff74ee6d9ffa88d83aeb038068366c4c40000')
+'''
+
+#print(api.get_block_header())
+'''
+{"status":"success","data":{"block_header":"0101000000000000000000000000000000000000000000000000000000000000000000c0fce4e1bf2c200118f65d7940f8874191fbf83c50dc45988e29c2e741e617ae019ae41356a68401000100","reward":0}}
+Object(block_header='0101000000000000000000000000000000000000000000000000000000000000000000c0fce4e1bf2c200118f65d7940f8874191fbf83c50dc45988e29c2e741e617ae019ae41356a68401000100', reward=0)
+'''
+
+#print(api.is_mining())
+'''
+{"status":"success","data":{"is_mining":false}}
+Object(is_mining=False)
+'''
+
+#print(api.set_mining(is_mining=True))
+'''
+{"status":"success","data":""}
+None
+'''
+
+#print(api.net_info())
+'''
+{"status":"success","data":{"listening":true,"syncing":false,"mining":true,"node_xpub":"6b90db9ee85f76f8a246ae085337dab69b5bfc03c0fd4e8ac184b2944e83c994bce77b7d06d03af835fa98007788127fdb4ae507fe1a5903438eae91d91ea2ec","peer_count":0,"current_block":748,"highest_block":748,"finalized_block":600,"network_id":"solonet","version_info":{"version":"1.1.1+91e799b4","update":0,"new_version":"1.1.1+91e799b4"}}}
+Object(listening=True, syncing=False, mining=True, node_xpub='6b90db9ee85f76f8a246ae085337dab69b5bfc03c0fd4e8ac184b2944e83c994bce77b7d06d03af835fa98007788127fdb4ae507fe1a5903438eae91d91ea2ec', peer_count=0, current_block=748, highest_block=748, finalized_block=600, network_id='solonet', version_info=Object(version='1.1.1+91e799b4', update=0, new_version='1.1.1+91e799b4'))
+'''
+
+# print(api.gas_rate())
+'''
+{"status":"success","data":{"gas_rate":200}}
+Object(gas_rate=200)
+'''
+
+# print(api.verify_message("bm1qx2qgvvjz734ur8x5lpfdtlau74aaa5djs0a5jn", "6ff8c3d1321ce39a3c3550f57ba70b67dcbcef821e9b85f6150edb7f2f3f91009e67f3075e6e76ed5f657ee4b1a5f4749b7a8c74c8e7e6a1b0e5918ebd5df4d0", "this is a test message", "74da3d6572233736e3a439166719244dab57dd0047f8751b1efa2da26eeab251d915c1211dcad77e8b013267b86d96e91ae67ff0be520ef4ec326e911410b609"))
 
 
+# print(api.list_peers())
+'''
+{"status":"success","data":[]}
+[]
+'''
+
+# print(api.get_vote_result())

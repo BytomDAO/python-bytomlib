@@ -216,7 +216,7 @@ class BytomAPI(object):
 
     # new add
     estimate_chain_transaction_gas = bind_method(
-                path="/estimate-transaction-gas",
+                path="/estimate-chain-transaction-gas",
                 accepts_parameters=["transaction_templates"])
 
     # yes has
