@@ -686,6 +686,10 @@ print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 * [`list-access-tokens`](#list-access-tokens)
 * [`delete-access-token`](#delete-access-token)
 * [`check-access-token`](#check-access-token)
+* [`create-contract`](#create-contract)
+* [`update-contract-alias`](#update-contract-alias)
+* [`get-contract`](#get-contract) 
+* [`list-contracts`](#list-contracts)
 * [`create-transaction-feed`](#create-transaction-feed)
 * [`get-transaction-feed`](#get-transaction-feed)
 * [`list-transaction-feeds`](#list-transaction-feeds)
@@ -1357,7 +1361,8 @@ Recovery wallet from the pubkey.
 
 ##### Parameters
 
-- `Array of String` - *root_xpubs*, pubkey array.
+- `Array` - *root_xpubs*, pubkey array.
+  - `String` - *xpub*, pubkey.
 
 ##### Returns
 
@@ -3523,6 +3528,172 @@ ret = api.check_access_token("token1", "1fee70f537128a201338bd5f25a3adbf33dad02e
 None
 ```
 </details>
+
+----
+
+#### `create-contract`
+
+Create the contract for bytom.
+
+##### Parameters
+
+`Object`:
+
+- `String` - *alias*, alias of contract.
+- `String` - *contract*, contract content.
+
+##### Returns
+
+the contract infomation that you created.
+
+`Object`:
+
+- `String` - *id*, hash id of the contract.
+- `String` - *alias*, the alias of the contract.
+- `String` - *contract*, filter of the transaction feed.
+- `String` - *call_program*, the call program of the contract.
+- `String` - *register_program*, the register program of the contract.
+
+
+##### Example
+
+```python
+ret = api.create_contract(alias="swap", contract="20e9108d3ca8049800727f6a3505b3a2710dc579405dde03c250f16d9a7e1e6e787403ae7cac00c0")
+```
+<details>
+<summary>Output</summary>
+
+```json
+{
+    "id": "4e4f02d43bf50171f7f25d046b7f016002da410fc00d2e8902e7b170c98cf946",
+    "alias": "swap",
+    "contract": "20e9108d3ca8049800727f6a3505b3a2710dc579405dde03c250f16d9a7e1e6e787403ae7cac00c0",
+    "call_program": "0462637270204e4f02d43bf50171f7f25d046b7f016002da410fc00d2e8902e7b170c98cf946",
+    "register_program": "6a046263727001012820e9108d3ca8049800727f6a3505b3a2710dc579405dde03c250f16d9a7e1e6e787403ae7cac00c0"
+}
+```
+</details>
+
+----
+
+#### `update-contract-alias`
+
+Update the alias of the contract for bytom.
+
+##### Parameters
+
+`Object`:
+
+- `String` - *id*, the hash id of contract.
+- `String` - *alias*, the new alias of the contract.
+
+##### Returns
+
+the condition status of this update.
+
+##### Example
+
+```python
+ret = api.update_contract_alias()
+```
+<details>
+<summary>Output</summary>
+
+```json
+{
+
+}
+```
+</details>
+
+----
+
+#### `get-contract`
+
+Query the contract content by id.
+
+##### Parameters
+
+`Object`:
+
+- `String` - *id*, the hash id of contract.
+
+##### Returns
+
+the contract infomation that you query.
+
+`Object`:
+
+- `String` - *id*, hash id of the contract.
+- `String` - *alias*, the alias of the contract.
+- `String` - *contract*, filter of the transaction feed.
+- `String` - *call_program*, the call program of the contract.
+- `String` - *register_program*, the register program of the contract.
+
+
+##### Example
+
+```python
+ret = api.get_contract(id="4e4f02d43bf50171f7f25d046b7f016002da410fc00d2e8902e7b170c98cf946")
+```
+<details>
+<summary>Output</summary>
+
+```json
+{
+      "id": "4e4f02d43bf50171f7f25d046b7f016002da410fc00d2e8902e7b170c98cf946",
+      "alias": "lock",
+      "contract": "20e9108d3ca8049800727f6a3505b3a2710dc579405dde03c250f16d9a7e1e6e787403ae7cac00c0",
+      "call_program": "0462637270204e4f02d43bf50171f7f25d046b7f016002da410fc00d2e8902e7b170c98cf946",
+      "register_program": "6a046263727001012820e9108d3ca8049800727f6a3505b3a2710dc579405dde03c250f16d9a7e1e6e787403ae7cac00c0"
+}
+```
+</details>
+
+----
+
+#### `list-contracts`
+
+Returns the list of all available contracts.
+
+##### Parameters
+
+none
+
+##### Returns
+
+the contract infomation that you query.
+
+`Object`:
+
+- `Array` , all available contracts
+  - `String` - *id*, hash id of the contract.
+  - `String` - *alias*, the alias of the contract.
+  - `String` - *contract*, filter of the transaction feed.
+  - `String` - *call_program*, the call program of the contract.
+  - `String` - *register_program*, the register program of the contract.
+
+##### Example
+
+```python
+ret = api.list_contracts()
+```
+<details>
+<summary>Output</summary>
+
+```json
+[
+  {
+        "id": "4e4f02d43bf50171f7f25d046b7f016002da410fc00d2e8902e7b170c98cf946",
+        "alias": "lock",
+        "contract": "20e9108d3ca8049800727f6a3505b3a2710dc579405dde03c250f16d9a7e1e6e787403ae7cac00c0",
+        "call_program": "0462637270204e4f02d43bf50171f7f25d046b7f016002da410fc00d2e8902e7b170c98cf946",
+        "register_program": "6a046263727001012820e9108d3ca8049800727f6a3505b3a2710dc579405dde03c250f16d9a7e1e6e787403ae7cac00c0"
+  }
+]
+```
+</details>
+
 
 ----
 
