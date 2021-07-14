@@ -16,7 +16,7 @@ address = "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx"
 actions = [
     {
         "account_id": "1SA0QDN500A02",
-        "amount": 400000,
+        "amount": 4000000,
         "asset_id": asset_id,
         "type": "spend_account"
     },
@@ -27,7 +27,7 @@ actions = [
     #   "type": "spend_account"
     # },
     {
-        "amount": 30000,
+        "amount": 2000000,
         "asset_id": asset_id,
         "address": address,
         "type": "control_address"
@@ -52,4 +52,4 @@ for i in range(1000):
     else:
         print("ok i:{} raw_transaction:{}".format(i, raw_transaction))
     time.sleep(3)
-    break
+    #break
