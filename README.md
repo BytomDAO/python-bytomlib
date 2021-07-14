@@ -655,6 +655,7 @@ print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 * [`validate-address`](#validate-address)
 * [`list-pubkeys`](#list-pubkeys)
 * [`get-mining-address`](#get-mining-address)
+* [`set-mining-address`](#set-mining-address)
 * [`create-asset`](#create-asset)
 * [`get-asset`](#get-asset)
 * [`list-assets`](#list-assets)
@@ -1286,7 +1287,39 @@ ret = api.list_pubkeys("0GO0LLUV00A02")
 
 #### `get-mining-address`
 
-Returns the list of all available pubkeys by account.
+Return the mining address.
+
+##### Parameters
+
+- `string` - *address*, address of account.
+
+##### Returns
+
+`Object`:
+
+- `string` - *mining_address*, mining_address.
+
+##### Example
+
+```python
+ret = api.set_mining_address("sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx")
+```
+<details>
+<summary>Output</summary>
+
+```json
+{
+    "mining_address": "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx"
+}
+
+```
+</details>
+
+----
+
+#### `set-mining-address`
+
+Go to set the mining address.
 
 ##### Parameters
 
