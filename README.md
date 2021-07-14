@@ -702,6 +702,7 @@ print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 * [`get-block-count`](#get-block-count)
 * [`get-block-hash`](#get-block-hash)
 * [`get-block`](#get-block)
+* [`get-raw-block`](#get-raw-block)
 * [`get-block-header`](#get-block-header)
 * [`net-info`](#net-info)
 * [`is-mining`](#is-mining)
@@ -4307,6 +4308,44 @@ ret = api.get_block(43, "886a8e85b275e7d65b569ba510875c0e63dece1a94569914d7624c0
     }
   ],
   "version": 1
+}
+```
+</details>
+
+----
+
+#### `get-raw-block`
+
+Returns the raw block by block height or block hash.
+
+##### Parameters
+
+`Object`: block_height | block_hash
+
+optional:
+
+- `String` - *block_hash*, hash of block.
+- `Integer` - *block_height*, height of block.
+
+##### Returns
+
+`Object`:
+
+- `String` - *raw_block*, hash of block.
+
+##### Example
+
+get specified block information by block_hash or block_height, if both exists, the block result is querying by hash.
+
+```python
+ret = api.get_raw_block()
+```
+<details>
+<summary>Output</summary>
+
+```json
+{
+  "raw_block":"0301000000000000000000000000000000000000000000000000000000000000000000c0fce4e1bf2c200118f65d7940f8874191fbf83c50dc45988e29c2e741e617ae019ae41356a684010001000107010001014b0249496e666f726d6174696f6e20697320706f7765722e202d2d204a616e2f31312f323031332e20436f6d707574696e6720697320706f7765722e202d2d204170722f32342f323031382e000101003affffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00011600148c9d063ff74ee6d9ffa88d83aeb038068366c4c40000"
 }
 ```
 </details>
