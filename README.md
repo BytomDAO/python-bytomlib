@@ -1301,7 +1301,7 @@ None
 ##### Example
 
 ```python
-ret = api.list_pubkeys("0GO0LLUV00A02")
+ret = api.get_mining_address()
 ```
 <details>
 <summary>Output</summary>
