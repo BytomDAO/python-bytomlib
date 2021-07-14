@@ -686,6 +686,7 @@ print(api.submit_transaction(result["transaction"]["raw_transaction"]))
 * [`list-access-tokens`](#list-access-tokens)
 * [`delete-access-token`](#delete-access-token)
 * [`check-access-token`](#check-access-token)
+* [`get-vote-result`](#get-vote-result)
 * [`create-contract`](#create-contract)
 * [`update-contract-alias`](#update-contract-alias)
 * [`get-contract`](#get-contract) 
@@ -3531,6 +3532,58 @@ None
 
 ----
 
+#### `get-vote-result`
+
+Returns vote result at specific block height.
+
+##### Parameters
+
+`Object`:
+  - `String` - *block_hash*, hash of block.
+  - `Integer` - *block_height*, height of block.
+
+Optional:
+  - `String` - *block_hash*, hash of block.
+  - `Integer` - *block_height*, height of block.
+
+##### Returns
+
+the contract infomation that you created.
+
+`Array` - *vote_array*, the array of the vote:
+  - `Object` - *vote*, the object of the array.
+    - `String` - *vote*, vote pubkey of vote node.
+    - `String` - *vote_number*, vote_number vote number.
+
+
+##### Example
+
+```python
+ret = api.get_vote_result(block_height=100000)
+```
+<details>
+<summary>Output</summary>
+
+```json
+[
+        {
+            "vote": "aa5cb0d5d193a141ce66dd3448e8d74d73bed1131ea05b130c14c95ad04b0295f2d4d3f421ae10a2517f7431e0eca119fea509e0650bd20b4a64b856b5473f35",
+            "vote_number": 10000000000
+        },
+        {
+            "vote": "98e6ab8c654bb31e0c432a2c9ff13a6e3419dcb8a1df94f2839f41d79e94b6ca7a68f60b793d947195f761187b37275fbeb345041d5ea3039c5d328b63e3d489",
+            "vote_number": 10000000000
+        },
+        {
+            "vote": "896285b552bfe0647c0effaee41e5ce98a77981396455259792300cfbc0988bfb1a723488cedf0e73c3220e273fb6843abfbee025d7401b67bf81641b208dfc1",
+            "vote_number": 10000000000
+        }
+]
+```
+</details>
+
+----
+
 #### `create-contract`
 
 Create the contract for bytom.
@@ -3594,7 +3647,7 @@ the condition status of this update.
 ##### Example
 
 ```python
-ret = api.update_contract_alias()
+ret = api.update_contract_alias(id="4e4f02d43bf50171f7f25d046b7f016002da410fc00d2e8902e7b170c98cf946", alias="lock")
 ```
 <details>
 <summary>Output</summary>
