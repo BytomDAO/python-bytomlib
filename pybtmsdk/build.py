@@ -1,15 +1,5 @@
 # coding=utf-8
 
-import hashlib
-import json
-import time
-import requests
-from enum import Enum
-from collections import defaultdict
-from .key import get_xpub, get_child_xpub, get_seed, get_child_xprv, get_root_xprv, xprv_sign
-from .key import get_entropy, get_mnemonic
-from .receiver import get_main_vapor_address, get_public_key
-from .segwit_addr import decode
 from .opcodes import Opcodes
 
 
