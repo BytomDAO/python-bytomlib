@@ -254,8 +254,8 @@ def decode_raw_tx(raw_transaction_str, network_str):
             offset += 64
             tx_input['amount'], length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
-            source_positon, length = get_uvarint(raw_transaction_str[offset:offset + 18])
-            tx_input["source_positon"] = int(source_positon)
+            source_position, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+            tx_input["source_position"] = int(source_position)
             offset = offset + 2 * length
             asset_definition_size, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
@@ -299,7 +299,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 "state_data": [],
                 "witness_arguments": [],
                 "source_id": "",
-                "source_positon": -1
+                "source_position": -1
                 #"spend_commitment_suffix": "",
                 #"witness_suffix": "",
             }
@@ -314,8 +314,8 @@ def decode_raw_tx(raw_transaction_str, network_str):
             tx_input['amount'], length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
             tx['fee'] += tx_input['amount']
-            source_positon, length = get_uvarint(raw_transaction_str[offset:offset + 18])
-            tx_input["source_positon"] = int(source_positon)
+            source_position, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+            tx_input["source_position"] = int(source_position)
             offset = offset + 2 * length
             vmversion, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
@@ -349,7 +349,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 offset = offset + 2 * argument_length
                 tx_input['witness_arguments'].append(argument)
             tx_input['spent_output_id'] = get_spend_output_id(source_id, tx_input['asset_id'], tx_input['amount'],
-                                                              source_positon, vmversion, tx_input['control_program'],
+                                                              source_position, vmversion, tx_input['control_program'],
                                                               for_spend_id_state_hexstr)
             tx_input['input_id'] = get_input_id(tx_input['spent_output_id'])
             tx['inputs'].append(tx_input)
@@ -384,7 +384,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
         elif input_type == 3:  # vote
             tx_input = {
                 "amount": 0,
-                "source_positon": -1,
+                "source_position": -1,
                 "control_program": "",
                 "asset_id": "",
                 "input_id": "",
@@ -405,8 +405,8 @@ def decode_raw_tx(raw_transaction_str, network_str):
             tx_input['amount'], length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
             tx['fee'] += tx_input['amount']
-            source_positon, length = get_uvarint(raw_transaction_str[offset:offset + 18])
-            tx_input["source_positon"] = int(source_positon)
+            source_position, length = get_uvarint(raw_transaction_str[offset:offset + 18])
+            tx_input["source_position"] = int(source_position)
             offset = offset + 2 * length
             vmversion, length = get_uvarint(raw_transaction_str[offset:offset + 18])
             offset = offset + 2 * length
@@ -448,7 +448,7 @@ def decode_raw_tx(raw_transaction_str, network_str):
                 tx_input['witness_arguments'].append(argument)
 
             tx_input['vote_output_id'] = get_vote_spend_output_id(source_id, tx_input['asset_id'], tx_input['amount'],
-                                                                  source_positon, vmversion,
+                                                                  source_position, vmversion,
                                                                   tx_input['control_program'], xpub_str,
                                                                   for_vote_id_state_hexstr)
             tx_input['input_id'] = get_vote_input_id(tx_input['vote_output_id'])
@@ -640,7 +640,7 @@ def write_spend_dic(input_dic):
     arr.append(input_dic["source_id"])
     arr.append(input_dic["asset_id"])
     arr.append(put_uvarint(input_dic["amount"]))
-    arr.append(put_uvarint(input_dic["source_positon"]))
+    arr.append(put_uvarint(input_dic["source_position"]))
     arr.append("01")       # vm version
     arr.append(write_var_str(input_dic["control_program"]))
     arr.append(write_var_list(input_dic["state_data"]))
@@ -653,7 +653,7 @@ def write_vote_dic(input_dic):
     arr.append(input_dic["source_id"])
     arr.append(input_dic["asset_id"])
     arr.append(put_uvarint(input_dic["amount"]))
-    arr.append(put_uvarint(input_dic["source_positon"]))
+    arr.append(put_uvarint(input_dic["source_position"]))
     arr.append("01")
     arr.append(write_var_str(input_dic["control_program"]))
     arr.append(write_var_list(input_dic["state_data"]))
