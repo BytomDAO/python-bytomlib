@@ -218,26 +218,26 @@ Object(tx_id='f52c3e16747879471514df2dbfec7063d4bf34c0fd08ec094e0ba7a5e707bb2b',
 [Object(tx_id='7e80560a4cabe8afdf52566e0ca16caf91fcfcd5897ee315660d939fe5c80fc1', block_time=1626227988000, inputs=[Object(type='coinbase', asset_id='0000000000000000000000000000000000000000000000000000000000000000', arbitrary='00353434')], outputs=[Object(type='control', asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_alias='BTM', account_id='1SA0QDN500A02', account_alias='ipqhjjybj')]), Object(tx_id='94a723b1ef1fbcc336648638ff9dfb770b5f6ca9fe2b61ac32053477899d56bf', block_time=1626227982000, inputs=[Object(type='coinbase', asset_id='0000000000000000000000000000000000000000000000000000000000000000', arbitrary='00353433')], outputs=[Object(type='control', asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_alias='BTM', account_id='1SA0QDN500A02', account_alias='ipqhjjybj')])]
 '''
 
-# actions = [
-#     {
-#         "account_id": "1SA0QDN500A02",
-#         "amount": 4000000,
-#         "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-#         "type": "spend_account"
-#     },
-#     # {
-#     #   "account_id": "1QEPIO7OG0A02",
-#     #   "amount": 300000,
-#     #   "asset_id": asset_id,
-#     #   "type": "spend_account"
-#     # },
-#     {
-#         "amount": 2000000,
-#         "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-#         "address": "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx",
-#         "type": "control_address"
-#     }
-# ]
+actions = [
+    {
+        "account_id": "1SA0QDN500A02",
+        "amount": 4000000,
+        "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "type": "spend_account"
+    },
+    # {
+    #   "account_id": "1QEPIO7OG0A02",
+    #   "amount": 300000,
+    #   "asset_id": asset_id,
+    #   "type": "spend_account"
+    # },
+    {
+        "amount": 2000000,
+        "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "address": "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx",
+        "type": "control_address"
+    }
+]
 
 # print(api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=int(time.time()),
 #                             return_dict=True))
@@ -269,9 +269,9 @@ Object(transaction=Object(raw_transaction='0701dfd5c8d505010161015f088f6fb47aee1
 Object(transaction=[Object(raw_transaction='0701dfd5c8d505010161015f088f6fb47aee1c1922158a513ee84d485a4042afa05c81001a6444c475fe9de1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c00630240043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d20e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e0201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff8cefaea86a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003bffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc801011600144a068fe5ff924d078be11a6807a8502b22268f0c0000', signing_instructions=[Object(position=0, witness_components=[Object(type='raw_tx_signature', quorum=1, keys=[Object(xpub='e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea', derivation_path=['2c000000', '99000000', '01000000', '00000000', '02000000'])], signatures=['043ad4ab765ebb576fef12e76c24b37ec86e667f62c8cd0fa758611cee009798bec0e26d7c4af4ac11ca8293b3fd7cc9b158a7b8f17245bbd2e6bd45f4030b0d']), Object(type='data', value='e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e')])], fee=200, allow_additional_actions=False)], sign_complete=True)
 '''
 
-# template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
-# data = api.sign_transaction(password="86458043", transaction=template, return_dict=True)
-# print(api.submit_transaction(raw_transaction=data["transaction"]["raw_transaction"]))
+template = api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=1521625823, return_dict=True)
+data = api.sign_transaction(password="86458043", transaction=template, return_dict=True)
+print(api.submit_transaction(raw_transaction=data["transaction"]["raw_transaction"]))
 
 '''
 {"status":"success","data":{"raw_transaction":"0701dfd5c8d505010161015fa3b5efee4fe6d913b818295df4148fe0ff0b026d2f0a74ceefa0b6cfd0797018ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9cf2aea86a00011600144a068fe5ff924d078be11a6807a8502b22268f0c0001000201003effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9ce0baa66a011600144a068fe5ff924d078be11a6807a8502b22268f0c000001003cffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80897a011600144a068fe5ff924d078be11a6807a8502b22268f0c0000","signing_instructions":[{"position":0,"witness_components":[{"type":"raw_tx_signature","quorum":1,"keys":[{"xpub":"e8f60df830801929b5486b7270d3be928f3e20441585864738630b53b72dba82b0d0d5036a93cef482aa5873d310f98caea5dc35c6f162648715c81dfee554ea","derivation_path":["2c000000","99000000","01000000","00000000","02000000"]}],"signatures":null},{"type":"data","value":"e464d86eedccec8887681416accf8361254007e9c75819cc9f9a0f44f8be376e"}]}],"fee":2000000,"allow_additional_actions":false}}
