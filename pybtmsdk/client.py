@@ -254,6 +254,11 @@ class BytomAPI(object):
                 path="/get-contract",
                 accepts_parameters=["id"])
 
+    # new add
+    list_contracts = bind_method(
+                path="/list-contracts",
+                accepts_parameters=NO_ACCEPT_PARAMETERS)
+
     # yes has
     create_transaction_feed = bind_method(
                 path="/create-transaction-feed",
@@ -373,4 +378,9 @@ class BytomAPI(object):
     get_vote_result = bind_method(
                 path="/get-vote-result",
                 accepts_parameters=["block_hash", "block_height"])
+
+    # new add
+    chain_status = bind_method(
+                path="/chain-status",
+                accepts_parameters=NO_ACCEPT_PARAMETERS)
 

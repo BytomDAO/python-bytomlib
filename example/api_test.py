@@ -7,9 +7,22 @@ from pybtmsdk.transaction import decode_raw_tx, encode_raw_tx
 from pybtmsdk.signature import generate_signatures_use_mnemonic
 
 url = 'http://0.0.0.0:9888'
+url = 'http://47.101.140.15:9888'
 access_token = 'YOUR_ACCESS_TOKEN'
 
 api = BytomAPI(url=url)
+
+print(api.chain_status())
+
+'''
+{"status":"success","data":{"current_height":124499,"current_hash":"ac85913c881956eb3827f73eb49f14b4e3587c58a660a48d1826b8f31246057f","finalized_height":124300,"finalized_hash":"668dc002d7a854f2833f6fe10c2576822be571fa5f3bb6c86dfa0dc63f59a44f","justified_height":124400,"justified_hash":"a557180b79791687c91c4b1c2d35b909010e7a220f03935a5be5b9894f58bdd9"}}
+'''
+
+print(api.list_contracts())
+
+'''
+{"status":"success","data":[]}
+'''
 
 # print(api.create_key("alice", "123456", "en"))
 '''
@@ -205,26 +218,26 @@ Object(tx_id='f52c3e16747879471514df2dbfec7063d4bf34c0fd08ec094e0ba7a5e707bb2b',
 [Object(tx_id='7e80560a4cabe8afdf52566e0ca16caf91fcfcd5897ee315660d939fe5c80fc1', block_time=1626227988000, inputs=[Object(type='coinbase', asset_id='0000000000000000000000000000000000000000000000000000000000000000', arbitrary='00353434')], outputs=[Object(type='control', asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_alias='BTM', account_id='1SA0QDN500A02', account_alias='ipqhjjybj')]), Object(tx_id='94a723b1ef1fbcc336648638ff9dfb770b5f6ca9fe2b61ac32053477899d56bf', block_time=1626227982000, inputs=[Object(type='coinbase', asset_id='0000000000000000000000000000000000000000000000000000000000000000', arbitrary='00353433')], outputs=[Object(type='control', asset_id='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', asset_alias='BTM', account_id='1SA0QDN500A02', account_alias='ipqhjjybj')])]
 '''
 
-actions = [
-    {
-        "account_id": "1SA0QDN500A02",
-        "amount": 4000000,
-        "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-        "type": "spend_account"
-    },
-    # {
-    #   "account_id": "1QEPIO7OG0A02",
-    #   "amount": 300000,
-    #   "asset_id": asset_id,
-    #   "type": "spend_account"
-    # },
-    {
-        "amount": 2000000,
-        "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-        "address": "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx",
-        "type": "control_address"
-    }
-]
+# actions = [
+#     {
+#         "account_id": "1SA0QDN500A02",
+#         "amount": 4000000,
+#         "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+#         "type": "spend_account"
+#     },
+#     # {
+#     #   "account_id": "1QEPIO7OG0A02",
+#     #   "amount": 300000,
+#     #   "asset_id": asset_id,
+#     #   "type": "spend_account"
+#     # },
+#     {
+#         "amount": 2000000,
+#         "asset_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+#         "address": "sm1qfgrgle0ljfxs0zlprf5q02zs9v3zdrcv6tmuvx",
+#         "type": "control_address"
+#     }
+# ]
 
 # print(api.build_transaction(base_transaction=None, actions=actions, ttl=10, time_range=int(time.time()),
 #                             return_dict=True))
